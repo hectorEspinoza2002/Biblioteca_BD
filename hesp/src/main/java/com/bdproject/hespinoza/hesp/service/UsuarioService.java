@@ -33,4 +33,56 @@ public class UsuarioService {
         usuarioRepo.delete(ud);
     }
 
+    /*
+
+    public boolean validarLogin(String idUsuario, String password) {
+        System.out.println("Intentos de login para: " + idUsuario);
+        Optional<Usuario> usuarioOpt = usuarioRepo.findById(idUsuario);
+
+        if (usuarioOpt.isEmpty()) {
+            return false;
+        }
+
+        Usuario usuario = usuarioOpt.get();
+        System.out.println("Status usuario: " + usuario.getIdStatusUsuario().getIdStatusUsuario());
+        System.out.println("Intentos: " + usuario.getIntentosDeAcceso());
+
+        // 🔹 Validar si ya está bloqueado
+        if (usuario.getIdStatusUsuario() != null
+                && usuario.getIdStatusUsuario().getIdStatusUsuario() == 2) {
+            System.out.println("Usuario " + idUsuario + " ya está bloqueado");
+            return false;
+        }
+
+        // obtenemos la empresa desde la sucursal
+        Empresa empresa = usuario.getIdSucursal().getEmpresa();
+        int maxIntentos = empresa.getPasswordIntentosAntesDeBloquear() != null
+                ? empresa.getPasswordIntentosAntesDeBloquear()
+                : 5;
+
+        String passwordEncriptado = encriptarPassword(password);
+
+        // 🔹 Si la contraseña es correcta
+        if (passwordEncriptado.equals(usuario.getPassword())) {
+            usuario.setIntentosDeAcceso(0); // resetear intentos
+            usuarioRepo.save(usuario);
+            return true;
+        }
+
+        // 🔹 Si la contraseña es incorrecta
+        int intentos = usuario.getIntentosDeAcceso() == null ? 0 : usuario.getIntentosDeAcceso();
+        usuario.setIntentosDeAcceso(intentos + 1);
+
+        // validar contra el numero de intentos configurado en empresa
+        if (usuario.getIntentosDeAcceso() >= maxIntentos) {
+            StatusUsuario statusBloqueado = statusUsuarioService.obtenerStatusPorId(2);
+            usuario.setIdStatusUsuario(statusBloqueado);
+            System.out.println("Usuario " + idUsuario + " ha sido bloqueado por intentos fallidos");
+        }
+
+        usuarioRepo.save(usuario);
+        return false;
+    }
+         */
+
 }

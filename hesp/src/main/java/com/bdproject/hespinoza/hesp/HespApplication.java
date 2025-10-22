@@ -8,6 +8,8 @@ public class HespApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(HespApplication.class, args);
+
+		System.out.println("------------------ App Lista! ----------------------------");
 	}
 
 }
