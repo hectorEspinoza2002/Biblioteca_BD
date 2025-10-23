@@ -14,6 +14,9 @@ import { EditauthorsComponent } from './component/editauthors/editauthors.compon
 import { PrincipalComponent } from './component/principal/principal.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AddmarcaComponent } from './component/addmarca/addmarca.component';
+import { EditmarcaComponent } from './component/editmarca/editmarca.component';
+import { ListmarcaComponent } from './component/listmarca/listmarca.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { HttpClientModule } from '@angular/common/http';
     ListauthorsComponent,
     AddauthorsComponent,
     EditauthorsComponent,
-    PrincipalComponent
+    PrincipalComponent,
+    AddmarcaComponent,
+    EditmarcaComponent,
+    ListmarcaComponent
   ],
   imports: [
     BrowserModule,
