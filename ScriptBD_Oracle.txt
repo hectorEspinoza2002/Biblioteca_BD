@@ -1,0 +1,217 @@
+-- ============================================================
+-- BIBLIOTECA UNIVERSITARIA (Oracle 21c+)
+-- ============================================================
+
+-- Eliminar tablas si existen (para reiniciar todo)
+BEGIN
+  EXECUTE IMMEDIATE 'DROP TABLE libro_autor CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE prestamo CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE bitacora CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE usuario CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE rol_usuario CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE libro CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE autor CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE editorial CASCADE CONSTRAINTS';
+  EXECUTE IMMEDIATE 'DROP TABLE estado_prestamo CASCADE CONSTRAINTS';
+EXCEPTION
+  WHEN OTHERS THEN NULL;
+END;
+/
+
+-- ============================================================
+-- TABLA: editorial
+-- ============================================================
+CREATE TABLE editorial (
+  id_editorial NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre VARCHAR2(150) NOT NULL,
+  pais VARCHAR2(100),
+  usuarioCreacion VARCHAR2(100),
+  fechaCreacion DATE DEFAULT SYSDATE
+);
+
+-- ============================================================
+-- TABLA: autor
+-- ============================================================
+CREATE TABLE autor (
+  id_autor NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre_completo VARCHAR2(200) NOT NULL,
+  nacionalidad VARCHAR2(100),
+  fecha_nacimiento DATE,
+  usuarioCreacion VARCHAR2(100),
+  fechaCreacion DATE DEFAULT SYSDATE
+);
+
+-- ============================================================
+-- TABLA: libro
+-- ============================================================
+CREATE TABLE libro (
+  id_libro NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  isbn VARCHAR2(20) UNIQUE,
+  titulo VARCHAR2(300) NOT NULL,
+  anio_publicacion NUMBER(4),
+  id_editorial NUMBER,
+  serie VARCHAR2(200),
+  usuarioCreacion VARCHAR2(100),
+  fechaCreacion DATE DEFAULT SYSDATE,
+  total_ejemplares NUMBER DEFAULT 1 NOT NULL,
+  ejemplares_disponibles NUMBER DEFAULT 1 NOT NULL,
+  CONSTRAINT fk_libro_editorial FOREIGN KEY (id_editorial) REFERENCES editorial(id_editorial)
+);
+
+-- ============================================================
+-- TABLA: libro_autor
+-- ============================================================
+CREATE TABLE libro_autor (
+  id_libro NUMBER NOT NULL,
+  id_autor NUMBER NOT NULL,
+  PRIMARY KEY (id_libro, id_autor),
+  CONSTRAINT fk_la_libro FOREIGN KEY (id_libro) REFERENCES libro(id_libro),
+  CONSTRAINT fk_la_autor  FOREIGN KEY (id_autor) REFERENCES autor(id_autor)
+);
+
+-- ============================================================
+-- TABLA: rol_usuario
+-- ============================================================
+CREATE TABLE rol_usuario (
+  id_rol NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre_rol VARCHAR2(50) NOT NULL
+);
+
+INSERT INTO rol_usuario (nombre_rol) VALUES ('ESTUDIANTE');
+INSERT INTO rol_usuario (nombre_rol) VALUES ('PROFESOR');
+INSERT INTO rol_usuario (nombre_rol) VALUES ('PERSONAL');
+
+-- ============================================================
+-- TABLA: usuario
+-- ============================================================
+CREATE TABLE usuario (
+  id_usuario NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  carne VARCHAR2(50) UNIQUE,
+  nombre_completo VARCHAR2(200) NOT NULL,
+  correo VARCHAR2(150) UNIQUE NOT NULL,
+  carrera VARCHAR2(150),
+  id_rol NUMBER NOT NULL,
+  usuarioCreacion VARCHAR2(100),
+  fechaCreacion DATE DEFAULT SYSDATE,
+  password VARCHAR2(200),
+  CONSTRAINT fk_usuario_rol FOREIGN KEY (id_rol) REFERENCES rol_usuario(id_rol)
+);
+
+-- ============================================================
+-- TABLA: estado_prestamo
+-- ============================================================
+CREATE TABLE estado_prestamo (
+  id_estado NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  nombre VARCHAR2(50) NOT NULL
+);
+
+INSERT INTO estado_prestamo (nombre) VALUES ('ACTIVO');
+INSERT INTO estado_prestamo (nombre) VALUES ('DEVUELTO');
+INSERT INTO estado_prestamo (nombre) VALUES ('ATRASADO');
+
+-- ============================================================
+-- TABLA: prestamo
+-- ============================================================
+CREATE TABLE prestamo (
+  id_prestamo NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  id_usuario NUMBER NOT NULL,
+  id_libro NUMBER NOT NULL,
+  fecha_prestamo TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  fecha_devolucion_prevista DATE NOT NULL,
+  fecha_devolucion_real TIMESTAMP NULL,
+  id_estado NUMBER DEFAULT 1,
+  CONSTRAINT fk_prestamo_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+  CONSTRAINT fk_prestamo_libro FOREIGN KEY (id_libro) REFERENCES libro(id_libro),
+  CONSTRAINT fk_prestamo_estado FOREIGN KEY (id_estado) REFERENCES estado_prestamo(id_estado)
+);
+
+-- ============================================================
+-- TABLA: bitacora
+-- ============================================================
+CREATE TABLE bitacora (
+  id_bitacora NUMBER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  id_usuario NUMBER NULL,
+  accion VARCHAR2(100) NOT NULL,
+  descripcion CLOB,
+  fecha_hora TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  ip_origen VARCHAR2(50),
+  CONSTRAINT fk_bitacora_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
+
+
+
+
+-- ===========================
+-- Editoriales
+-- ===========================
+INSERT INTO editorial (nombre, pais, usuarioCreacion)
+VALUES ('Planeta', 'España', 'admin');
+INSERT INTO editorial (nombre, pais, usuarioCreacion)
+VALUES ('Penguin Random House', 'EEUU', 'admin');
+INSERT INTO editorial (nombre, pais, usuarioCreacion)
+VALUES ('Alfaguara', 'México', 'admin');
+
+-- ===========================
+-- Autores
+-- ===========================
+INSERT INTO autor (nombre_completo, nacionalidad, fecha_nacimiento, usuarioCreacion)
+VALUES ('Gabriel García Márquez', 'Colombia', DATE '1927-03-06', 'admin');
+INSERT INTO autor (nombre_completo, nacionalidad, fecha_nacimiento, usuarioCreacion)
+VALUES ('Isabel Allende', 'Chile', DATE '1942-08-02', 'admin');
+INSERT INTO autor (nombre_completo, nacionalidad, fecha_nacimiento, usuarioCreacion)
+VALUES ('Mario Vargas Llosa', 'Perú', DATE '1936-03-28', 'admin');
+
+-- ===========================
+-- Libros
+-- ===========================
+INSERT INTO libro (isbn, titulo, anio_publicacion, id_editorial, usuarioCreacion, total_ejemplares, ejemplares_disponibles)
+VALUES ('9780307474728', 'Cien años de soledad', 1967, 1, 'admin', 5, 5);
+
+INSERT INTO libro (isbn, titulo, anio_publicacion, id_editorial, usuarioCreacion, total_ejemplares, ejemplares_disponibles)
+VALUES ('9780525566342', 'La casa de los espíritus', 1982, 2, 'admin', 4, 3);
+
+INSERT INTO libro (isbn, titulo, anio_publicacion, id_editorial, usuarioCreacion, total_ejemplares, ejemplares_disponibles)
+VALUES ('9788437604947', 'La ciudad y los perros', 1963, 3, 'admin', 6, 5);
+
+-- ===========================
+-- Relación libro_autor
+-- ===========================
+INSERT INTO libro_autor (id_libro, id_autor) VALUES (1, 1);
+INSERT INTO libro_autor (id_libro, id_autor) VALUES (2, 2);
+INSERT INTO libro_autor (id_libro, id_autor) VALUES (3, 3);
+
+-- ===========================
+-- Usuarios
+-- ===========================
+INSERT INTO usuario (carne, nombre_completo, correo, carrera, id_rol, usuarioCreacion, password)
+VALUES ('2021001', 'Ana López', 'ana.lopez@uni.edu', 'Ingeniería en Sistemas', 1, 'admin', 'hash123');
+
+INSERT INTO usuario (carne, nombre_completo, correo, carrera, id_rol, usuarioCreacion, password)
+VALUES ('2021002', 'Carlos Pérez', 'carlos.perez@uni.edu', 'Literatura', 2, 'admin', 'hash456');
+
+INSERT INTO usuario (carne, nombre_completo, correo, carrera, id_rol, usuarioCreacion, password)
+VALUES ('2021003', 'Laura Gómez', 'laura.gomez@uni.edu', 'Administración', 3, 'admin', 'hash789');
+
+-- ===========================
+-- Préstamos
+-- ===========================
+INSERT INTO prestamo (id_usuario, id_libro, fecha_devolucion_prevista, id_estado)
+VALUES (1, 1, SYSDATE + 7, 1);
+
+INSERT INTO prestamo (id_usuario, id_libro, fecha_devolucion_prevista, id_estado)
+VALUES (2, 2, SYSDATE + 10, 1);
+
+INSERT INTO prestamo (id_usuario, id_libro, fecha_devolucion_prevista, id_estado)
+VALUES (3, 3, SYSDATE + 5, 2);
+
+-- ===========================
+-- Bitácora
+-- ===========================
+INSERT INTO bitacora (id_usuario, accion, descripcion, ip_origen)
+VALUES (1, 'PRÉSTAMO', 'Se realizó préstamo del libro "Cien años de soledad".', '192.168.1.10');
+
+INSERT INTO bitacora (id_usuario, accion, descripcion, ip_origen)
+VALUES (2, 'DEVOLUCIÓN', 'Se devolvió el libro "La casa de los espíritus".', '192.168.1.11');
+
+COMMIT;
