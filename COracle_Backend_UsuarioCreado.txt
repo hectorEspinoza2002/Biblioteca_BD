@@ -1,0 +1,39 @@
+Crear nuevo usuario con permisos
+
+--Habilitar modo script interno (solo necesario para usuarios normales)
+--Ejecuta esto una sola vez por sesión:
+
+ALTER SESSION SET "_oracle_script" = TRUE;
+
+--Esto permite crear usuarios sin depender de esquemas preexistentes en el “CDB” (base contenedora).
+
+--Crear el usuario para tu proyecto
+--Ejemplo: crear un usuario llamado BIBLIOTECA (puedes usar HR si quieres, pero mejor usa uno tuyo).
+
+CREATE USER nombreUser IDENTIFIED BY passwordUser;
+
+--Asignar tablespaces y permisos
+--Dale permisos y espacio de trabajo para que pueda crear tablas, vistas, secuencias, etc.
+
+ALTER USER nombreUser DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
+ALTER USER nombreUser TEMPORARY TABLESPACE TEMP;
+
+--Otorga los privilegios básicos:
+
+GRANT CREATE SESSION TO nombreUser;
+GRANT CREATE TABLE TO nombreUser;
+GRANT CREATE VIEW TO nombreUser;
+GRANT CREATE SEQUENCE TO nombreUser;
+GRANT CREATE TRIGGER TO nombreUser;
+GRANT CREATE PROCEDURE TO nombreUser;
+GRANT CREATE SYNONYM TO nombreUser;
+GRANT CREATE DATABASE LINK TO nombreUser;
+GRANT RESOURCE TO nombreUser;
+
+--Estos permisos son seguros y suficientes para que tu usuario pueda crear y manejar sus propias tablas, vistas y procedimientos sin tocar el resto del sistema.
+
+--Verifica que el usuario fue creado correctamente
+
+SELECT username, account_status FROM dba_users WHERE username = 'nombreUser';
+
+
