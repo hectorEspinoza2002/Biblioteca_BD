@@ -9,6 +9,6 @@ import com.bdproject.hespinoza.hesp.model.entity.Usuario;
 
 public interface AutorRepository extends JpaRepository<Autor, Integer>{
 
-    List<Usuario> findByIdUsuarioAndPassword(String idUsuario, String password);
+    //List<Usuario> findByIdUsuarioAndPassword(String idUsuario, String password);
 
 }

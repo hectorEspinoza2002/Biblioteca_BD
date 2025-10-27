@@ -27,7 +27,7 @@ public class Autor {
      @Column(name = "fecha_nacimiento")
     private String fechaNacimiento;
 
-    private String password;
+    //private String password;
 
     /* Hola Mundo! */
 
