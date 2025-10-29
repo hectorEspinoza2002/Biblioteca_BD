@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Author } from '../entity/author';
+import { Author } from '../entity/autor';
 
 @Injectable({
   providedIn: 'root'

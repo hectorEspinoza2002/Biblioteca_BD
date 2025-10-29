@@ -1,5 +1,7 @@
 package com.bdproject.hespinoza.hesp.model.entity;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,6 +20,9 @@ public class Libro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_libro")
+    private Integer idLibro;
+    
     @Column(name = "isbn")
     private String isbn;
 
@@ -25,14 +30,14 @@ public class Libro {
     private String titulo;
 
     @Column(name = "anio_publicacion")
-    private String autor;
+    private Date anioPublicacion;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_editorial")
     private Editorial editorial;
 
     @Column(name = "serie")
-    private Integer serie;
+    private String serie;
 
     @Column(name = "total_ejemplares")
     private Integer totalEjemplares;

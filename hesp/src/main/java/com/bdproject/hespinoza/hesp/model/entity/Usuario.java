@@ -43,6 +43,6 @@ public class Usuario {
     private RolUsuario rol; // estudiante, profesor, personal
 
     @Column(name = "password_hash")
-    private LocalDate password;
+    private String password;
 
 }

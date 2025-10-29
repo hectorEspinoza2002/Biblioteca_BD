@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Author } from '../../entity/author';
+import { Author } from '../../entity/autor';
 import { AuthorService } from '../../service/author.service';
 import { Router } from '@angular/router';
 

@@ -42,6 +42,6 @@ public class Prestamo {
     private Date fechaDevolucionReal;
 
     @Column(name = "estado")
-    private String estado;
+    private EstadoPrestamo estado;
 
 }

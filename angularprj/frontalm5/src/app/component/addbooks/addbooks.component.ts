@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Book } from '../../entity/book';
-import { Author } from '../../entity/author';
+import { Book } from '../../entity/libro';
+import { Author } from '../../entity/autor';
 import { BookService } from '../../service/book.service';
 import { AuthorService } from '../../service/author.service';
 import { Router } from '@angular/router';

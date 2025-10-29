@@ -6,9 +6,9 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bdproject.hespinoza.hesp.model.entity.Prestamo;
-//import com.bdproject.hespinoza.hesp.model.repository.PrestamoRepository;
-
 /*
+import com.bdproject.hespinoza.hesp.model.repository.PrestamoRepository;
+
 @Service
 public class PrestamoService {
 
@@ -35,4 +35,4 @@ public class PrestamoService {
     }
 
 }
-     */
+ */
