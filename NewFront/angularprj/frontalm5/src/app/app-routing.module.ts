@@ -1,0 +1,55 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { MenuComponent } from './component/menu/menu.component';
+import { PrincipalComponent } from './component/principal/principal.component';
+import { LoginComponent } from './component/login/login.component';
+import { ListusuarioComponent } from './component/listusuario/listusuario.component';
+import { AddusuarioComponent } from './component/addusuario/addusuario.component';
+import { ListroleComponent } from './component/listrole/listrole.component';
+import { AddroleComponent } from './component/addrole/addrole.component';
+import { ListsucursalesComponent } from './component/listsucursales/listsucursales.component';
+import { ListempresaComponent } from './component/listempresa/listempresa.component';
+import { ListmoduloComponent } from './component/listmodulo/listmodulo.component';
+import { ListmenuComponent } from './component/listmenu/listmenu.component';
+import { ListopcionComponent } from './component/listopcion/listopcion.component';
+import { ListroleopcionComponent } from './component/listroleopcion/listroleopcion.component';
+import { AddempresaComponent } from './component/addempresa/addempresa.component';
+import { AddsucursalComponent } from './component/addsucursal/addsucursal.component';
+import { AddmoduloComponent } from './component/addmodulo/addmodulo.component';
+import { AddmenuComponent } from './component/addmenu/addmenu.component';
+import { AddopcionComponent } from './component/addopcion/addopcion.component';
+import { AddgeneroComponent } from './component/addgenero/addgenero.component';
+import { EditgeneroComponent } from './component/editgenero/editgenero.component';
+import { ListgeneroComponent } from './component/listgenero/listgenero.component';
+
+const routes: Routes = [
+  {    path: "listgenero", component:ListgeneroComponent },
+  {    path: "editgenero", component:EditgeneroComponent },
+  {    path: "addgenero", component:AddgeneroComponent },
+  {    path: "addopcion", component:AddopcionComponent },
+  {    path: "addmenu", component:AddmenuComponent },
+  {    path: "addmodulo", component:AddmoduloComponent },
+  {    path: "addsucursal", component:AddsucursalComponent },
+  {    path: "addempresa", component:AddempresaComponent },
+  {    path: "listrolopcion", component:ListroleopcionComponent },
+  {    path: "listopcion", component:ListopcionComponent  },
+  {    path: "listmenu", component:ListmenuComponent  },
+  {    path: "listmodulo", component:ListmoduloComponent  },
+  {    path: "listempresa", component:ListempresaComponent  },
+  {    path: "listsucursal", component:ListsucursalesComponent  },
+  {    path: "listrole", component:ListroleComponent  },
+  {    path: "addrole", component:AddroleComponent  },
+  {    path: "listusuarios", component:ListusuarioComponent  },
+  {    path: "addusuarios", component:AddusuarioComponent  },
+  {    path: "menu", component:MenuComponent  },
+  {    path: "principal", component: PrincipalComponent  },
+  {    path: "login", component: LoginComponent  },
+  {    path: "", redirectTo: "login", pathMatch: "full"  },
+  {    path: "**", redirectTo: "login", pathMatch: "full"  }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

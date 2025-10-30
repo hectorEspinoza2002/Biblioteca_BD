@@ -1,0 +1,129 @@
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h2>Crear Nuevo Usuario</h2>
+    </div>
+
+    <div class="card-body">
+      <form #usuarioForm="ngForm" class="needs-validation" novalidate>
+
+        <!-- Campos básicos -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">ID Usuario *</label>
+            <input [(ngModel)]="usuario.idUsuario" name="idUsuario" class="form-control" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Contraseña *</label>
+            <input [(ngModel)]="usuario.password" name="password" type="password" class="form-control" required>
+            <small class="form-text text-muted">
+              La contraseña debe cumplir con las reglas de seguridad
+            </small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Nombre *</label>
+            <input [(ngModel)]="usuario.nombre" name="nombre" class="form-control" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Apellido *</label>
+            <input [(ngModel)]="usuario.apellido" name="apellido" class="form-control" required>
+          </div>
+        </div>
+
+        <!-- Selectores -->
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Género *</label>
+            <select [(ngModel)]="selectedGenero" name="genero" class="form-select" required>
+              <option value="">Seleccione género</option>
+              <option *ngFor="let genero of generosDisponibles" [value]="genero.idGenero">
+                {{ genero.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Status *</label>
+            <select [(ngModel)]="selectedStatus" name="status" class="form-select" required>
+              <option value="">Seleccione status</option>
+              <option *ngFor="let status of statusDisponibles" [value]="status.idStatusUsuario">
+                {{ status.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Rol *</label>
+            <select [(ngModel)]="selectedRole" name="role" class="form-select" required>
+              <option value="">Seleccione rol</option>
+              <option *ngFor="let role of rolesDisponibles" [value]="role.idRole">
+                {{ role.nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sucursal y reglas -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Sucursal *</label>
+            <select [(ngModel)]="selectedSucursal" name="sucursal" class="form-select"
+                    (change)="onSucursalChange()" required>
+              <option value="">Seleccione sucursal</option>
+              <option *ngFor="let sucursal of sucursalesDisponibles" [value]="sucursal.idSucursal">
+                {{ sucursal.nombre }} - {{ sucursal.empresa.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Fecha Nacimiento *</label>
+            <input [(ngModel)]="usuario.fechaNacimiento" name="fechaNacimiento" type="date" class="form-control" required>
+          </div>
+        </div>
+
+        <!-- Contacto -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Correo Electrónico *</label>
+            <input [(ngModel)]="usuario.correoElectronico" name="correo" type="email" class="form-control" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Teléfono Móvil</label>
+            <input [(ngModel)]="usuario.telefonoMovil" name="telefono" class="form-control">
+          </div>
+        </div>
+
+        <!-- Seguridad -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Pregunta de Seguridad *</label>
+            <input [(ngModel)]="usuario.pregunta" name="pregunta" class="form-control" required>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Respuesta *</label>
+            <input [(ngModel)]="usuario.respuesta" name="respuesta" class="form-control" required>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button (click)="Cancel()" type="button" class="btn btn-secondary me-md-2">
+            Cancelar
+          </button>
+          <button (click)="guardarUser()" type="button" class="btn btn-primary"
+                  [disabled]="!usuarioForm.form.valid">
+            Guardar Usuario
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
