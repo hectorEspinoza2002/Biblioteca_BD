@@ -1,8 +1,16 @@
-import { Genero } from './genero';
-import { Role } from './Role';
-import { StatusUsuario } from './statusUsuario';
-import { Sucursal } from './Sucursal';
 
+
+export class Usuario {
+  idUsuario!: number;
+  carne!: string;
+  nombre!: string;
+  email!: string;
+  carrera!: string;
+  //rol!: RolUsuario;
+  password!: string;
+}
+
+/*
 export class Usuario {
 
   idUsuario!: string;
@@ -29,3 +37,4 @@ export class Usuario {
   fechaModificacion!: Date;
   usuarioModificacion!: String;
 }
+*/
