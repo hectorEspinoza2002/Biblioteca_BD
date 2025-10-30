@@ -5,6 +5,7 @@ export class Libro{
   isbn!: string;
   titulo!: string;
   anioPublicacion!: Date;
+  fotografia!: String;
   //editorial!: Editorial;
   serie!: string;
   totalEjemplares!: number;

@@ -32,6 +32,10 @@ public class Libro {
     @Column(name = "anio_publicacion")
     private Date anioPublicacion;
 
+    @Column(name = "Fotografia")
+    private String fotografia;
+    //Fotografia = BLOB, en oracle
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_editorial")
     private Editorial editorial;
