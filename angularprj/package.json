@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@angular/router": "^19.2.11",
-    "bootstrap": "^5.3.6"
-  }
-}
