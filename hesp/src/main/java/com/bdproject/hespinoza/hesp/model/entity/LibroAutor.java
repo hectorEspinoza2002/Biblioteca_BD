@@ -19,11 +19,11 @@ public class LibroAutor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_autor")
-    private Autor autor;
+    @JoinColumn(name = "id_libro")
+    private Libro libro;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "isbn")
-    private Libro libro;
+    @JoinColumn(name = "id_autor")
+    private Autor autor;
 
 }

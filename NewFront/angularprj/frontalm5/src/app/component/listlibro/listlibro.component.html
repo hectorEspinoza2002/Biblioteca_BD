@@ -23,9 +23,16 @@
           <td>{{l.isbn}}</td>
           <td>{{l.titulo}}</td>
           <td>{{l.anioPublicacion}}</td>
-          <td>{{l.fotografia}}</td>
+          <td>
+            <img *ngIf="l.fotografia"
+                 [src]="'data:image/jpeg;base64,' + l.fotografia"
+                 alt="Foto"
+                 width="100"
+                 height="120"
+                 class="rounded-circle border shadow-sm">
+          </td>
           <td>{{l.serie}}</td>
-          <td>{{l.ejemplaresDisponible}}</td>
+          <td>{{l.ejemplaresDisponibles}}</td>
           <td class="text-center">
             <button (click)="selectlibro(l)" class="btn btn-warning btn-sm">Editar</button>
             <span style="margin-trim:1em;"></span>
@@ -37,3 +44,4 @@
     </table>
   </div>
 </div>
+

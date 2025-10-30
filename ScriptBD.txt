@@ -39,6 +39,7 @@ CREATE TABLE libro (
   isbn VARCHAR(20) NOT NULL PRIMARY KEY,
   titulo VARCHAR(300) NOT NULL,
   anio_publicacion YEAR,
+  Fotografia mediumblob,
   id_editorial INT,
   serie VARCHAR(200),
   total_ejemplares INT NOT NULL DEFAULT 1,      -- total de ejemplares físicos

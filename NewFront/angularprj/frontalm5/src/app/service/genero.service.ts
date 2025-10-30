@@ -1,7 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Genero } from '../entity/genero';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +7,8 @@ import { Observable } from 'rxjs';
 export class GeneroService {
   constructor(private http: HttpClient) {}
   Url = 'http://localhost:9090';
+
+  /*
 
   buscarGenero(id: String) {
     return this.http.get<Genero>(this.Url + '/list_generos/' + id);
@@ -28,4 +28,5 @@ export class GeneroService {
   addGenero(gen: Genero) {
     return this.http.post<Genero>(this.Url + '/create_genero', gen);
   }
+    */
 }

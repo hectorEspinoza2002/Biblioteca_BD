@@ -9,5 +9,5 @@ export class Libro{
   //editorial!: Editorial;
   serie!: string;
   totalEjemplares!: number;
-  ejemplaresDisponible!: number;
+  ejemplaresDisponibles!: number;
 }

@@ -30,10 +30,10 @@ public class Libro {
     private String titulo;
 
     @Column(name = "anio_publicacion")
-    private Date anioPublicacion;
+    private Integer anioPublicacion;
 
     @Column(name = "Fotografia")
-    private String fotografia;
+    private byte[] fotografia;
     //Fotografia = BLOB, en oracle
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -46,7 +46,7 @@ public class Libro {
     @Column(name = "total_ejemplares")
     private Integer totalEjemplares;
 
-    @Column(name = "ejemplares_disponible")
-    private Integer ejemplaresDisponible;
+    @Column(name = "ejemplares_disponibles")
+    private Integer ejemplaresDisponibles;
 
 }

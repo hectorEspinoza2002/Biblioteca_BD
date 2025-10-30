@@ -17,6 +17,7 @@ export class ListusuarioComponent implements OnInit{
   }
 
   cargarUsuarios(): void {
+    /*
     this.userService.listUsuarios().subscribe({
       next: (data) => {
         this.usuarios = data;
@@ -26,9 +27,11 @@ export class ListusuarioComponent implements OnInit{
         alert('Error al cargar la lista de usuarios');
       }
     });
+    */
   }
 
   deleteUser(us: Usuario): void {
+    /*
     const validar = confirm(`¿Está seguro que desea eliminar al usuario ${us.nombre} ${us.apellido}?`);
 
     if (validar) {
@@ -43,6 +46,7 @@ export class ListusuarioComponent implements OnInit{
         }
       });
     }
+      */
   }
 
   selectUser(usr: Usuario): void {

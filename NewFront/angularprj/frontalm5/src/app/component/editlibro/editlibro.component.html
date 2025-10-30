@@ -1,0 +1,104 @@
+<div class="container col-md-6 mt-4">
+  <div class="card shadow-lg border-0 rounded-3">
+    <div class="card-header bg-primary text-white text-center rounded-top">
+      <h3 class="mb-0">Modificar libros</h3>
+    </div>
+
+    <div class="card-body">
+      <form #rolForm="ngForm" novalidate>
+
+        <div class="mb-3">
+          <label for="idLibro" class="form-label fw-bold">ID</label>
+          <input
+            [(ngModel)]="libros.idLibro"
+            type="text"
+            name="idLibro"
+            id="idLibro"
+            #myFocus
+            class="form-control"
+            placeholder="ID"
+            required
+            disabled
+          />
+        </div>
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Fotografía</label>
+          <input
+            type="file"
+            (change)="onFileSelected($event)"
+            class="form-control"
+          />
+          <div *ngIf="libros.fotografia" class="mt-2">
+            <img
+              [src]="'data:image/jpeg;base64,' + libros.fotografia"
+              alt="Foto del libro"
+              class="img-thumbnail"
+              style="max-width: 150px; max-height: 150px"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="titulo" class="form-label fw-bold">Título</label>
+            <input
+              [(ngModel)]="libros.titulo"
+              type="text"
+              name="titulo"
+              id="titulo"
+              class="form-control"
+              placeholder="Ingrese Título"
+              required
+            />
+          </div>
+        </div>
+
+
+        <div class="row">
+          <!--
+          <div class="col-md-6 mb-3">
+            <label for="anioPublicacion" class="form-label fw-bold">Año Publicación</label>
+            <input
+              [(ngModel)]="libros.anioPublicacion"
+              type="text"
+              name="anioPublicacion"
+              id="anioPublicacion"
+              class="form-control"
+              placeholder="Ingrese Año De Publicación"
+              required
+            />
+          </div>-->
+
+          <div class="col-md-6 mb-3">
+            <label for="serie" class="form-label fw-bold">Serie</label>
+            <input
+              [(ngModel)]="libros.serie"
+              type="text"
+              name="serie"
+              id="serie"
+              class="form-control"
+              placeholder="Ingrese Serie"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-success me-2"
+            (click)="editLibro(libros)"
+            [disabled]="!rolForm.form.valid"
+          >
+            <i class="bi bi-save"></i> Guardar
+          </button>
+
+          <button type="button" class="btn btn-danger" (click)="cancelar()">
+            <i class="bi bi-x-circle"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

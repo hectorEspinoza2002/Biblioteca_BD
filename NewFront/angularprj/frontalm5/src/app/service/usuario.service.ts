@@ -2,10 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Usuario } from '../entity/usuario';
 import { Observable } from 'rxjs';
-import { Role } from '../entity/Role';
-import { Sucursal } from '../entity/Sucursal';
 import { Genero } from '../entity/genero';
-import { StatusUsuario } from '../entity/statusUsuario';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +10,7 @@ import { StatusUsuario } from '../entity/statusUsuario';
 export class UsuarioService {
   constructor(private http: HttpClient) {}
   Url = 'http://localhost:9090/api';
+  /*
 
   listUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(`${this.Url}/usuarios`);
@@ -34,27 +32,5 @@ export class UsuarioService {
     return this.http.delete(`${this.Url}/${id}`, { responseType: 'text' });
   }
 
-  getReglasEmpresa(idSucursal: number): Observable<any> {
-    // Necesitarás crear este endpoint en el backend
-    return this.http.get<any>(`${this.Url}/reglas-empresa/${idSucursal}`);
-  }
-
-  // Método para obtener sucursales (necesario para el formulario)
-  getSucursales(): Observable<Sucursal[]> {
-    return this.http.get<Sucursal[]>(`${this.Url}/sucursales`);
-  }
-
-  // Método para obtener roles (necesario para el formulario)
-  getRoles(): Observable<Role[]> {
-    return this.http.get<Role[]>(`${this.Url}/roles`);
-  }
-
-  getGeneros(): Observable<Genero[]>{
-    return this.http.get<Genero[]>(`${this.Url}/generos`);
-  }
-
-  getStatusUsuarios(): Observable<StatusUsuario[]>{
-    return this.http.get<StatusUsuario[]>(`${this.Url}/statusUsuarios`);
-  }
-
+*/
 }

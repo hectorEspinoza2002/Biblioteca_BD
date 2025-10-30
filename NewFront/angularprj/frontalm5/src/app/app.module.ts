@@ -11,6 +11,7 @@ import { ListusuarioComponent } from './component/listusuario/listusuario.compon
 import { AddusuarioComponent } from './component/addusuario/addusuario.component';
 import { PassowrdValidatorDirective } from './service/passowrd-validator.directive';
 import { ListlibroComponent } from './component/listlibro/listlibro.component';
+import { EditlibroComponent } from './component/editlibro/editlibro.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ListlibroComponent } from './component/listlibro/listlibro.component';
     ListusuarioComponent,
     AddusuarioComponent,
     PassowrdValidatorDirective,
-    ListlibroComponent
+    ListlibroComponent,
+    EditlibroComponent
   ],
   imports: [
     BrowserModule,

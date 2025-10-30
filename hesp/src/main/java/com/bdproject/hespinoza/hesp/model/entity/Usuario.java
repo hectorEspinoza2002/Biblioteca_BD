@@ -35,12 +35,12 @@ public class Usuario {
     @Column(name = "carrera")
     private String carrera;
 
-    @Column(name = "fecha_registro")
-    private LocalDate fechaRegistro;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_rol")
     private RolUsuario rol; // estudiante, profesor, personal
+
+    @Column(name = "fecha_registro")
+    private LocalDate fechaRegistro;
 
     @Column(name = "password_hash")
     private String password;

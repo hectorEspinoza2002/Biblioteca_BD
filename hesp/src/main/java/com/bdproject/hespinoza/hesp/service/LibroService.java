@@ -6,9 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.bdproject.hespinoza.hesp.model.entity.Libro;
-//import com.bdproject.hespinoza.hesp.model.repository.LibroRepository;
+import com.bdproject.hespinoza.hesp.model.repository.LibroRepository;
 
-/*
 @Service
 public class LibroService {
 
@@ -35,4 +34,3 @@ public class LibroService {
     }
 
 }
-     */

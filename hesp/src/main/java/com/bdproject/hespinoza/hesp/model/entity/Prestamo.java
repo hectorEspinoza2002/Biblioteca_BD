@@ -41,7 +41,8 @@ public class Prestamo {
     @Column(name = "fecha_devolucion_real")
     private Date fechaDevolucionReal;
 
-    @Column(name = "estado")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "estado")
     private EstadoPrestamo estado;
 
 }

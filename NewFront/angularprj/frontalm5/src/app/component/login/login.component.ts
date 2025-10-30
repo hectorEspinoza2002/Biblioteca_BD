@@ -15,10 +15,14 @@ export class LoginComponent {
 
   constructor(private usuarioService: UsuarioService, private router: Router) {}
 
+
   iniciarSesion() {
+    /*
     this.errorMessage = '';
 
       console.log("Datos que envío: ", this.usuario);
+
+
 
     this.usuarioService.login({
       idUsuario: this.usuario.idUsuario,
@@ -38,7 +42,9 @@ export class LoginComponent {
         this.errorMessage = 'Ocurrió un error en el servidor';
       }
     );
+      */
   }
+
 
   registrar() {
     this.router.navigate(['/registro']);

@@ -12,19 +12,23 @@ export class LibroService {
   Url = 'http://localhost:9090';
 
   buscarLibro(id: String){
-    return this.http.get<Libro>(this.Url + '');
+    return this.http.get<Libro>(this.Url + '/list_libro/'+id);
   }
 
   getAll(): Observable<any[]>{
-    return this.http.get<any[]>(this.Url + '');
+    return this.http.get<any[]>(this.Url + '/list_libro');
   }
 
   deleteLibro(lib: Libro){
-    return this.http.delete(this.Url + '' + lib.idLibro, {responseType: 'text'});
+    return this.http.delete(this.Url + '/delete_libro/' + lib.idLibro, {responseType: 'text'});
   }
 
   addLibro(l:Libro){
-    return this.http.post<Libro>(this.Url + '',l);
+    return this.http.post<Libro>(this.Url + '/create_libro',l);
+  }
+
+  editLibro(id: String, updateLibro: Libro){
+    return this.http.put<Libro>(this.Url +'/update_libro/'+id, updateLibro);
   }
 
 }
