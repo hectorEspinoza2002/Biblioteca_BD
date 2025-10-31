@@ -1,12 +1,3 @@
-Autor
-Bitacora
-Editorial
-Libro
-LibroAutor
-Prestamo
-RolUsuario
-Usuario
-
 -- Biblioteca DB (MySQL)
 DROP DATABASE IF EXISTS biblioteca_universitaria;
 CREATE DATABASE biblioteca_universitaria CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -18,7 +9,9 @@ USE biblioteca_universitaria;
 CREATE TABLE editorial (
   id_editorial INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(150) NOT NULL,
-  pais VARCHAR(100)
+  pais VARCHAR(100),
+  usuarioCreacion VARCHAR(100),
+  fechaCreacion Date
 ) ENGINE=InnoDB;
 
 -- =========================
@@ -28,7 +21,9 @@ CREATE TABLE autor (
   id_autor INT AUTO_INCREMENT PRIMARY KEY,
   nombre_completo VARCHAR(200) NOT NULL,
   nacionalidad VARCHAR(100),
-  fecha_nacimiento DATE
+  fecha_nacimiento DATE,
+  usuarioCreacion VARCHAR(100),
+  fechaCreacion Date
 ) ENGINE=InnoDB;
 
 -- =========================
@@ -36,12 +31,15 @@ CREATE TABLE autor (
 -- =========================
 -- Usamos ISBN como identificador natural, y además guardamos total/disp
 CREATE TABLE libro (
-  isbn VARCHAR(20) NOT NULL PRIMARY KEY,
+  id_libro INT auto_increment NOT NULL PRIMARY KEY,
+  isbn VARCHAR(20) UNIQUE,
   titulo VARCHAR(300) NOT NULL,
   anio_publicacion YEAR,
-  Fotografia mediumblob,
+  Fotografia MEDIUMBLOB,
   id_editorial INT,
   serie VARCHAR(200),
+  usuarioCreacion VARCHAR(100),
+  fechaCreacion Date,
   total_ejemplares INT NOT NULL DEFAULT 1,      -- total de ejemplares físicos
   ejemplares_disponibles INT NOT NULL DEFAULT 1, -- cuántos están disponibles para préstamo
   CONSTRAINT fk_libro_editorial FOREIGN KEY (id_editorial) REFERENCES editorial(id_editorial)
@@ -51,10 +49,10 @@ CREATE TABLE libro (
 -- TABLA: libro_autor (N:M)
 -- =========================
 CREATE TABLE libro_autor (
-  isbn VARCHAR(20) NOT NULL,
+  id_libro INT NOT NULL,
   id_autor INT NOT NULL,
-  PRIMARY KEY (isbn, id_autor),
-  CONSTRAINT fk_la_libro FOREIGN KEY (isbn) REFERENCES libro(isbn),
+  PRIMARY KEY (id_libro, id_autor),
+  CONSTRAINT fk_la_libro FOREIGN KEY (id_libro) REFERENCES libro(id_libro),
   CONSTRAINT fk_la_autor  FOREIGN KEY (id_autor) REFERENCES autor(id_autor)
 ) ENGINE=InnoDB;
 
@@ -74,12 +72,13 @@ INSERT INTO rol_usuario (nombre_rol) VALUES ('ESTUDIANTE'),('PROFESOR'),('PERSON
 CREATE TABLE usuario (
   id_usuario INT AUTO_INCREMENT PRIMARY KEY,
   carne VARCHAR(50) UNIQUE,         -- número de carné (opcional si aplica)
-  nombre_completo VARCHAR(200) NOT NULL,
+  nombre VARCHAR(200) NOT NULL,
+  apellido VARCHAR(200) NOT NULL,
   correo VARCHAR(150) UNIQUE NOT NULL,
   carrera VARCHAR(150),
   id_rol INT NOT NULL,
-  fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-  password_hash VARCHAR(200) NULL, -- almacenar hash, nunca contraseña en claro
+  fechaCreacion Date,
+  password VARCHAR(200) NULL, -- almacenar hash, nunca contraseña en claro
   CONSTRAINT fk_usuario_rol FOREIGN KEY (id_rol) REFERENCES rol_usuario(id_rol)
 ) ENGINE=InnoDB;
 
@@ -89,13 +88,13 @@ CREATE TABLE usuario (
 CREATE TABLE prestamo (
   id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
   id_usuario INT NOT NULL,
-  isbn VARCHAR(20) NOT NULL,
+  id_libro INT NOT NULL,
   fecha_prestamo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   fecha_devolucion_prevista DATE NOT NULL,
   fecha_devolucion_real DATETIME NULL, -- NULL indica no devuelto aún
   estado ENUM('ACTIVO','DEVUELTO','ATRASADO') NOT NULL DEFAULT 'ACTIVO',
   CONSTRAINT fk_prestamo_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-  CONSTRAINT fk_prestamo_libro   FOREIGN KEY (isbn) REFERENCES libro(isbn)
+  CONSTRAINT fk_prestamo_libro   FOREIGN KEY (id_libro) REFERENCES libro(id_libro)
 ) ENGINE=InnoDB;
 
 -- =========================
@@ -111,67 +110,18 @@ CREATE TABLE bitacora (
   CONSTRAINT fk_bitacora_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
 ) ENGINE=InnoDB;
 
--- =========================
--- TRIGGERS: gestión de ejemplares al insertar un préstamo
---  - before insert: verifica que haya ejemplares_disponibles > 0
---  - after insert: decrementa ejemplares_disponibles
---  - after update (al marcar devolución): incrementa ejemplares_disponibles si se pone fecha_devolucion_real
--- =========================
+-- Estado préstamo como tabla
+CREATE TABLE estado_prestamo (
+  id_estado INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL
+);
 
-DELIMITER $$
+INSERT INTO estado_prestamo (nombre) VALUES ('ACTIVO'),('DEVUELTO'),('ATRASADO');
 
--- Antes de insertar un prestamo: validar existencia de ejemplares disponibles
-CREATE TRIGGER trg_prestamo_before_insert
-BEFORE INSERT ON prestamo
-FOR EACH ROW
-BEGIN
-  DECLARE disponibles INT;
-  SELECT ejemplares_disponibles INTO disponibles FROM libro WHERE isbn = NEW.isbn FOR UPDATE;
-  IF disponibles IS NULL THEN
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Libro no existe';
-  END IF;
-  IF disponibles <= 0 THEN
-    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No hay ejemplares disponibles para préstamo';
-  END IF;
-END$$
-
--- Después de insertar un prestamo: decrementar ejemplares_disponibles
-CREATE TRIGGER trg_prestamo_after_insert
-AFTER INSERT ON prestamo
-FOR EACH ROW
-BEGIN
-  UPDATE libro SET ejemplares_disponibles = ejemplares_disponibles - 1 WHERE isbn = NEW.isbn;
-  INSERT INTO bitacora (id_usuario, accion, descripcion)
-    VALUES (NEW.id_usuario, 'PRESTAMO_CREADO', CONCAT('Prestamo creado id=', NEW.id_prestamo, ' isbn=', NEW.isbn));
-END$$
-
--- Después de actualizar un prestamo: si se registra fecha_devolucion_real y antes estaba NULL, incrementar ejemplares_disponibles
-CREATE TRIGGER trg_prestamo_after_update
-AFTER UPDATE ON prestamo
-FOR EACH ROW
-BEGIN
-  -- si antes no tenía fecha de devolución y ahora sí: es una devolución
-  IF OLD.fecha_devolucion_real IS NULL AND NEW.fecha_devolucion_real IS NOT NULL THEN
-    UPDATE libro SET ejemplares_disponibles = ejemplares_disponibles + 1 WHERE isbn = NEW.isbn;
-    -- actualizar estado
-    UPDATE prestamo SET estado = 'DEVUELTO' WHERE id_prestamo = NEW.id_prestamo;
-    INSERT INTO bitacora (id_usuario, accion, descripcion)
-      VALUES (NEW.id_usuario, 'DEVOLUCION', CONCAT('Devolución prestamo id=', NEW.id_prestamo, ' isbn=', NEW.isbn));
-  END IF;
-END$$
-
-DELIMITER ;
-
--- =========================
--- VISTAS (opcionales) para consultas útiles
--- =========================
-
--- Vista: historial de prestamos por usuario
-CREATE VIEW vista_historial_usuario AS
-SELECT p.id_prestamo, u.id_usuario, u.nombre_completo, p.isbn, l.titulo, p.fecha_prestamo, p.fecha_devolucion_prevista, p.fecha_devolucion_real, p.estado
-FROM prestamo p
-JOIN usuario u ON p.id_usuario = u.id_usuario
-JOIN libro l ON p.isbn = l.isbn;
+ALTER TABLE prestamo 
+ADD id_estado INT DEFAULT 1,
+DROP COLUMN estado,
+ADD CONSTRAINT fk_prestamo_estado FOREIGN KEY (id_estado) REFERENCES estado_prestamo(id_estado);
 
 -- =========================
 -- DATOS DE EJEMPLO (mínimos) - opcional
@@ -185,26 +135,32 @@ INSERT INTO autor (nombre_completo, nacionalidad, fecha_nacimiento) VALUES
 ('Miguel Ángel Asturias','Guatemala','1899-10-19'),
 ('Ernest Hemingway','United States','1899-07-21');
 
-INSERT INTO libro (isbn,titulo,anio_publicacion,id_editorial,serie,total_ejemplares,ejemplares_disponibles) VALUES
-('9780747532699','Harry Potter y la piedra filosofal',1997,1,'Harry Potter',5,5),
-('9788408064892','La sombra del viento',2001,2,NULL,3,3);
+INSERT INTO libro (id_libro,isbn,titulo,anio_publicacion,id_editorial,serie,total_ejemplares,ejemplares_disponibles) VALUES
+(1,'9780747532699','Harry Potter y la piedra filosofal',1997,1,'Harry Potter',5,5),
+(2,'9788408064892','La sombra del viento',2001,2,NULL,3,3);
 
-INSERT INTO libro_autor (isbn, id_autor) VALUES
-('9780747532699',1),
-('9788408064892',2);
+INSERT INTO libro_autor (id_libro, id_autor) VALUES
+(1,1),
+(2,2);
 
-INSERT INTO usuario (carne, nombre_completo, correo, carrera, id_rol, password_hash)
-VALUES ('2021001','Héctor Espinoza','hespinoza@mail.com','Ingeniería','1',NULL);
+INSERT INTO usuario (carne, nombre, apellido, correo, carrera, id_rol, password)
+VALUES ('2021001','Héctor', 'Espinoza','hespinoza@mail.com','Ingeniería','1', 'hespinoza1234');
+
+
+
+
 
 -- Fin del script
-
-
-
+show tables;
 select * from autor;
 select * from bitacora;
 select * from editorial;
+select * from estado_prestamo;
 select * from libro;
 select * from libro_autor;
 select * from prestamo;
 select * from rol_usuario;
 select * from usuario;
+select * from vista_historial_usuario;
+
+desc libro;

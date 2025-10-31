@@ -1,3 +1,80 @@
+<div class="container mt-4">
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">{{ modoEdicion ? 'Editar Editorial' : 'Agregar Nueva Editorial' }}</h5>
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="guardarEditorial()" #formEditorial="ngForm">
+        <div class="row">
+          <div class="col-md-5 mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="nuevaEditorial.nombre"
+                   name="nombre"
+                   required>
+          </div>
+
+          <div class="col-md-5 mb-3">
+            <label class="form-label">País</label>
+            <input type="text"
+                   class="form-control"
+                   [(ngModel)]="nuevaEditorial.pais"
+                   name="pais">
+          </div>
+
+          <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-success w-100">
+              {{ modoEdicion ? 'Actualizar' : 'Crear' }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="modoEdicion" class="text-end">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lista de editoriales -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-light">
+      <h5 class="text-primary mb-0">Listado de Editoriales</h5>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>País</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ed of editoriales" class="text-center">
+            <td>{{ ed.idEditorial }}</td>
+            <td>{{ ed.nombre }}</td>
+            <td>{{ ed.pais || '—' }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm me-2" (click)="seleccionarEditorial(ed)">
+                Editar
+              </button>
+              <button class="btn btn-danger btn-sm" (click)="eliminarEditorial(ed)">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!--
 <div class="container">
   <div class="card-header">
     <h2 class="text-primary"> Listado de Editoriales</h2>
@@ -28,4 +105,4 @@
     </table>
   </div>
 </div>
-
+-->

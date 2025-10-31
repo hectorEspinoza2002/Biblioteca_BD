@@ -1,5 +1,7 @@
 package com.bdproject.hespinoza.hesp.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +43,7 @@ public class LibroController {
         if (libId.getIdLibro() != null && libroService.findById(libId.getIdLibro()).isPresent()) {
             return null;
         } else {
+            libId.setFechaCreacion(LocalDateTime.now());
             return libroService.guardar(libId);
         }
     }
@@ -51,11 +54,11 @@ public class LibroController {
         if (optionLib.isPresent()) {
             Libro lb = optionLib.get();
             //lb.setIdLibro(updateLibro.getIdLibro());
-            //lb.setIsbn(updateLibro.getIsbn());
+            lb.setIsbn(updateLibro.getIsbn());
             lb.setTitulo(updateLibro.getTitulo());
-            //lb.setAnioPublicacion(updateLibro.getAnioPublicacion());
+            lb.setAnioPublicacion(updateLibro.getAnioPublicacion());
             lb.setFotografia(updateLibro.getFotografia());
-            //lb.setEditorial(updateLibro.getEditorial());
+            lb.setEditorial(updateLibro.getEditorial());
             lb.setSerie(updateLibro.getSerie());
             return libroService.guardar(lb);
         } else {

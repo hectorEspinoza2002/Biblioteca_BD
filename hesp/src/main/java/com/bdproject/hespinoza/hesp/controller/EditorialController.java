@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import com.bdproject.hespinoza.hesp.model.entity.Editorial;
 import com.bdproject.hespinoza.hesp.service.EditorialService;
 
 @RestController
+@CrossOrigin(origins = "*") 
 public class EditorialController {
 
     @Autowired
@@ -51,6 +53,7 @@ public class EditorialController {
         if (optEdit.isPresent()) {
             Editorial e = optEdit.get();
             e.setNombre(updateEditorial.getNombre());
+            e.setPais(updateEditorial.getPais());
             //Actualizamos usuario
             //scl.setUsuarioModificacion(LoginRequest.getUsuarioLogueado());
             //Acuatlizamos la hora

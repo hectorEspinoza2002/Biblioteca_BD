@@ -1,6 +1,6 @@
 package com.bdproject.hespinoza.hesp.model.entity;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,6 +42,12 @@ public class Libro {
 
     @Column(name = "serie")
     private String serie;
+
+    @Column(name = "usuarioCreacion")
+    private String usuarioCreacion;
+
+    @Column(name = "fechaCreacion")
+    private LocalDateTime fechaCreacion;
 
     @Column(name = "total_ejemplares")
     private Integer totalEjemplares;

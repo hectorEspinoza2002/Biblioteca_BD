@@ -1,3 +1,180 @@
+<div class="container mt-4">
+  <!-- FORMULARIO -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white text-center">
+      <h4>{{ modoEditar ? 'Editar Libro' : 'Agregar Nuevo Libro' }}</h4>
+    </div>
+
+    <div class="card-body">
+      <form #libroForm="ngForm" novalidate>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <label class="form-label fw-bold">ISBN</label>
+            <input
+              type="text"
+              [(ngModel)]="libro.isbn"
+              name="isbn"
+              class="form-control"
+              placeholder="Ejemplo: 978-1234567890"
+              required
+            />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label fw-bold">Título</label>
+            <input
+              type="text"
+              [(ngModel)]="libro.titulo"
+              name="titulo"
+              class="form-control"
+              placeholder="Ingrese el título"
+              required
+            />
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label fw-bold">Año de publicación</label>
+            <input
+              type="number"
+              [(ngModel)]="libro.anioPublicacion"
+              name="anioPublicacion"
+              class="form-control"
+              placeholder="Ejemplo: 2020"
+              min="1900"
+              max="2100"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Serie</label>
+            <input
+              type="text"
+              [(ngModel)]="libro.serie"
+              name="serie"
+              class="form-control"
+              placeholder="Serie o colección"
+            />
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Fotografía</label>
+            <input type="file" (change)="onFileSelected($event)" class="form-control" />
+            <div *ngIf="libro.fotografia" class="mt-2">
+              <img
+                [src]="'data:image/jpeg;base64,' + libro.fotografia"
+                alt="Foto del libro"
+                class="img-thumbnail"
+                style="max-width: 120px; max-height: 160px"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+           <div class="col-md-3 mb-3">
+            <label class="form-label">Total Ejemplares</label>
+            <input type="number" [(ngModel)]="libro.totalEjemplares" name="totalEjemplares" class="form-control" min="1">
+          </div>
+
+          <div class="col-md-3 mb-3">
+            <label class="form-label">Disponibles</label>
+            <input type="number" [(ngModel)]="libro.ejemplaresDisponibles" name="ejemplaresDisponibles" class="form-control" min="0">
+          </div>
+
+           <div class="col-md-3 mb-3">
+            <label class="form-label">Editorial</label>
+            <select [(ngModel)]="libro.editorial" name="editorial" class="form-select" required>
+              <option [ngValue]="undefined">Seleccione...</option>
+              <option *ngFor="let e of editoriales" [ngValue]="e">{{ e.nombre }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="text-end mt-3">
+          <button
+            type="button"
+            class="btn btn-success me-2"
+            (click)="guardarLibro()"
+            [disabled]="!libroForm.form.valid"
+          >
+            {{ modoEditar ? 'Actualizar' : 'Guardar' }}
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="resetFormulario()"
+          >
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- LISTADO -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-dark text-white text-center">
+      <h4>Listado de Libros</h4>
+    </div>
+
+    <div class="card-body">
+      <table class="table table-striped text-center">
+        <thead class="table-primary">
+          <tr>
+            <th>ID</th>
+            <th>ISBN</th>
+            <th>Título</th>
+            <th>Año</th>
+            <th>Serie</th>
+            <th>Foto</th>
+            <th>Disponibles</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let l of libros">
+            <td>{{ l.idLibro }}</td>
+            <td>{{ l.isbn }}</td>
+            <td>{{ l.titulo }}</td>
+            <td>{{ l.anioPublicacion }}</td>
+            <td>{{ l.serie }}</td>
+            <td>
+              <img
+                *ngIf="l.fotografia"
+                [src]="'data:image/jpeg;base64,' + l.fotografia"
+                width="60"
+                height="80"
+                class="rounded shadow-sm border"
+              />
+            </td>
+            <td>{{ l.ejemplaresDisponibles }}</td>
+            <td>
+              <button
+                (click)="editarLibro(l)"
+                class="btn btn-warning btn-sm me-2"
+              >
+                Editar
+              </button>
+              <button
+                (click)="eliminarLibro(l)"
+                class="btn btn-danger btn-sm"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<!--
 <div class="container">
   <div class="card-header">
     <h2 class="text-primary"> Listado de Libros</h2>
@@ -11,7 +188,6 @@
           <th>Titulo</th>
           <th>Año Publicado</th>
           <th>Fotografia</th>
-          <!--<th>Editorial</th>-->
           <th>Serie</th>
           <th>Disponibles</th>
           <th>Opciones</th>
@@ -44,4 +220,4 @@
     </table>
   </div>
 </div>
-
+-->

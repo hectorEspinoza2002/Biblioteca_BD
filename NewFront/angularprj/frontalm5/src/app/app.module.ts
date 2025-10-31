@@ -13,6 +13,7 @@ import { PassowrdValidatorDirective } from './service/passowrd-validator.directi
 import { ListlibroComponent } from './component/listlibro/listlibro.component';
 import { EditlibroComponent } from './component/editlibro/editlibro.component';
 import { EditorialComponent } from './component/editorial/editorial.component';
+import { RegisterComponent } from './component/register/register.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EditorialComponent } from './component/editorial/editorial.component';
     PassowrdValidatorDirective,
     ListlibroComponent,
     EditlibroComponent,
-    EditorialComponent
+    EditorialComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

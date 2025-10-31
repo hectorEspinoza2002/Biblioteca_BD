@@ -26,10 +26,13 @@ public class Usuario {
     @Column(name = "carne")
     private String carne;
 
-    @Column(name = "nombre_completo")
+    @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "correo")
+    @Column(name = "apellido")
+    private String apellido;
+
+    @Column(name = "email")
     private String email;
 
     @Column(name = "carrera")
@@ -39,10 +42,10 @@ public class Usuario {
     @JoinColumn(name = "id_rol")
     private RolUsuario rol; // estudiante, profesor, personal
 
-    @Column(name = "fecha_registro")
-    private LocalDate fechaRegistro;
+    @Column(name = "fechaCreacion")
+    private LocalDate fechaCreacion;
 
-    @Column(name = "password_hash")
+    @Column(name = "password")
     private String password;
 
 }

@@ -1,0 +1,71 @@
+<div class="container col-md-6 mt-5">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-success text-white text-center">
+      <h4>Registro de Usuario</h4>
+    </div>
+
+    <div class="card-body">
+      <form (ngSubmit)="registrar()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Nombre</label>
+            <input
+              [(ngModel)]="usuario.nombre"
+              name="nombre"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label fw-bold">Apellido</label>
+            <input
+              [(ngModel)]="usuario.apellido"
+              name="apellido"
+              type="text"
+              class="form-control"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Correo electrónico</label>
+          <input
+            [(ngModel)]="usuario.email"
+            name="email"
+            type="email"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Carrera</label>
+          <input
+            [(ngModel)]="usuario.carrera"
+            name="carrera"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold">Contraseña</label>
+          <input
+            [(ngModel)]="usuario.password"
+            name="password"
+            type="password"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-success me-2">Registrarme</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

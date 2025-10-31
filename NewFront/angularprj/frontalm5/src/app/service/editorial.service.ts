@@ -12,26 +12,26 @@ export class EditorialService {
   constructor(private http:HttpClient) { }
 
   getAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.Url + '');
+    return this.http.get<any[]>(this.Url + '/list_editorial');
   }
 
   searchEditorial(id: String) {
-    return this.http.get<Editorial>(this.Url + '' + id);
+    return this.http.get<Editorial>(this.Url + '/list_editorial/' + id);
   }
 
   editEditorial(id: String, updateEdit: Editorial) {
     return this.http.put<Editorial>(
-      this.Url + '' + id,
+      this.Url + '/update_editorial/' + id,
       updateEdit
     );
   }
 
   addEditorial(edit: Editorial) {
-    return this.http.post<Editorial>(this.Url + '', edit);
+    return this.http.post<Editorial>(this.Url + '/create_editorial', edit);
   }
 
   deleteEditorial(ed: Editorial) {
-    return this.http.delete(this.Url + '/delete_empresa/' + ed.idEditorial, {
+    return this.http.delete(this.Url + '/delete_editorial/' + ed.idEditorial, {
       responseType: 'text',
     });
   }

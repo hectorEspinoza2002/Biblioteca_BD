@@ -2,6 +2,7 @@ import { UsuarioService } from './../../service/usuario.service';
 import { Component } from '@angular/core';
 import { Usuario } from '../../entity/usuario';
 import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,43 +11,27 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  usuario: Usuario = new Usuario();
-  errorMessage: string = '';
+  email = '';
+  password = '';
 
-  constructor(private usuarioService: UsuarioService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-
-  iniciarSesion() {
-    /*
-    this.errorMessage = '';
-
-      console.log("Datos que envío: ", this.usuario);
-
-
-
-    this.usuarioService.login({
-      idUsuario: this.usuario.idUsuario,
-      password: this.usuario.password
-    }).subscribe(
-      (response) => {
-
-        if (response.success) {
-          alert('Login exitoso');
-          this.router.navigate(['/principal']);
-        } else {
-          this.errorMessage = response.message;
-        }
+  login(): void {
+    this.authService.login(this.email, this.password).subscribe({
+      next: (usuario) => {
+        alert('Bienvenido ' + usuario.nombre);
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        this.router.navigate(['/principal']);
       },
-      (error) => {
-        console.error('Error al iniciar sesión', error);
-        this.errorMessage = 'Ocurrió un error en el servidor';
-      }
-    );
-      */
+      error: (err) => {
+        if (err.status === 404) alert('Usuario no encontrado');
+        else if (err.status === 401) alert('Contraseña incorrecta');
+        else alert('Error al iniciar sesión');
+      },
+    });
   }
 
-
-  registrar() {
-    this.router.navigate(['/registro']);
+  irARegistro(): void {
+    this.router.navigate(['/register']);
   }
 }
