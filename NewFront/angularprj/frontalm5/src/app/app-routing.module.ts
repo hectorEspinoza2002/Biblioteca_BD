@@ -7,10 +7,12 @@ import { ListusuarioComponent } from './component/listusuario/listusuario.compon
 import { AddusuarioComponent } from './component/addusuario/addusuario.component';
 import { ListlibroComponent } from './component/listlibro/listlibro.component';
 import { EditlibroComponent } from './component/editlibro/editlibro.component';
+import { EditorialComponent } from './component/editorial/editorial.component';
 
 const routes: Routes = [
   {    path: "listlibro", component:ListlibroComponent  },
   {    path: "editlibro", component:EditlibroComponent  },
+  {    path: "editorial", component:EditorialComponent  },
 
 
   {    path: "listusuarios", component:ListusuarioComponent  },

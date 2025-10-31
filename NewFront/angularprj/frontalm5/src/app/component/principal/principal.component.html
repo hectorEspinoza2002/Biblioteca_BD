@@ -1,28 +1,57 @@
 <div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex gap-2">
+      <!--<a *ngIf="puedeAlta" routerLink="/addusuarios" class="btn btn-success">-->
+      <a routerLink="/addusuarios" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i>Agregar Libro
+      </a>
+    </div>
+  </div>
   <div class="text-center mb-4">
     <h2 class="text-primary fw-bold">📚 Biblioteca</h2>
     <p class="text-muted">Explora los libros disponibles</p>
+
+
   </div>
 
   <div class="row">
     <div class="col-md-3 mb-4" *ngFor="let l of libros">
       <div class="card shadow-sm h-100 border-0">
-        <img *ngIf="l.fotografia"
-             [src]="'data:image/jpeg;base64,' + l.fotografia"
-             alt="Foto"
-             class="card-img-top"
-             style="height: 220px; object-fit: cover; border-top-left-radius: 10px; border-top-right-radius: 10px;">
+        <img
+          *ngIf="l.fotografia"
+          [src]="'data:image/jpeg;base64,' + l.fotografia"
+          alt="Foto"
+          class="card-img-top"
+          style="
+            height: 220px;
+            object-fit: cover;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+          "
+        />
         <div class="card-body">
           <h5 class="card-title text-primary">{{ l.titulo }}</h5>
           <p class="card-text mb-1"><strong>ISBN:</strong> {{ l.isbn }}</p>
-          <p class="card-text mb-1"><strong>Año:</strong> {{ l.anioPublicacion }}</p>
-          <p class="card-text mb-1"><strong>Serie:</strong> {{ l.serie || 'N/A' }}</p>
-          <p class="card-text mb-3"><strong>Disponibles:</strong> {{ l.ejemplaresDisponibles }}</p>
+          <p class="card-text mb-1">
+            <strong>Año:</strong> {{ l.anioPublicacion }}
+          </p>
+          <p class="card-text mb-1">
+            <strong>Serie:</strong> {{ l.serie || "N/A" }}
+          </p>
+          <p class="card-text mb-3">
+            <strong>Disponibles:</strong> {{ l.ejemplaresDisponibles }}
+          </p>
           <div class="d-flex justify-content-between">
-            <button class="btn btn-sm btn-outline-warning" (click)="selectlibro(l)">
+            <button
+              class="btn btn-sm btn-outline-warning"
+              (click)="selectlibro(l)"
+            >
               <i class="bi bi-pencil"></i> Editar
             </button>
-            <button class="btn btn-sm btn-outline-danger" (click)="deleteLibro(l)">
+            <button
+              class="btn btn-sm btn-outline-danger"
+              (click)="deleteLibro(l)"
+            >
               <i class="bi bi-trash"></i> Eliminar
             </button>
           </div>
