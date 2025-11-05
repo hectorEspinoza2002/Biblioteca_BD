@@ -1,7 +1,7 @@
 package com.bdproject.hespinoza.hesp.model.entity;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,8 +29,8 @@ public class Prestamo {
     private Usuario usuario;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "isbn")
-    private Libro libro;
+    @JoinColumn(name = "id_libro")
+    private Libro id_libro;
 
     @Column(name = "fecha_prestamo")
     private LocalDateTime fechaPrestamo;
@@ -42,7 +42,7 @@ public class Prestamo {
     private Date fechaDevolucionReal;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "estado")
+    @JoinColumn(name = "id_estado")
     private EstadoPrestamo estado;
 
 }

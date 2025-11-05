@@ -51,60 +51,9 @@ export class PrincipalComponent implements OnInit{
     }
   }
 
-  // 🗑️ Eliminar libro
-  deleteLibro(lib: Libro) {
-    var validar = confirm('¿Está seguro que desea eliminar el Libro: ' + lib.titulo + '?');
-    if (validar) {
-      this.libroService.deleteLibro(lib).subscribe({
-        next: (result) => {
-          this.libros = this.libros.filter((x) => x !== lib);
-          alert(result);
-          this.configurarPaginacion(); // 🔁 actualiza la paginación después de eliminar
-        },
-        error: () => {
-          alert('Ha ocurrido un error al eliminar el libro.');
-        },
-      });
-    }
-  }
-
-  // ✏️ Seleccionar libro para editar
-  selectlibro(l: Libro): void {
+  prestamoLibro(l:Libro): void {
     localStorage.setItem('id', l.idLibro.toString());
-    this.router.navigate(['/editlibro']);
+    this.router.navigate(['/prestamo']);
   }
 
-  /*
-  libros!: Libro[];
-
-  constructor(private libroService: LibroService, private router: Router){}
-
-  ngOnInit(): void {
-
-    this.libroService.getAll().subscribe(data => {
-      this.libros = data;
-    });
-
-  }
-
-  deleteLibro(lib: Libro){
-    var validar = confirm("Esta seguro que desea eliminar el Libro: "+lib.titulo);
-    if(validar == true){
-      this.libroService.deleteLibro(lib).subscribe({
-        next: (result) => {
-          this.libros = this.libros.filter(x => x !== lib);
-          alert(result);
-        },
-        error: () => {
-        alert("Ha ocurrido un errore al eliminar el libro.");
-        },
-      });
-    }
-  }
-
-  selectlibro(l:Libro): void {
-    localStorage.setItem("id",l.idLibro.toString().valueOf());
-    this.router.navigate(["/editlibro"]);
-  }
-*/
 }
