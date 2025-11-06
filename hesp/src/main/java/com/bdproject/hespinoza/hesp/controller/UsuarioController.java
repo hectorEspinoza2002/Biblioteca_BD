@@ -43,13 +43,8 @@ public class UsuarioController {
         if (usId.getIdUsuario() != null) {
             return null;
         } else {
-            // Usuario
-            // usId.setUsuarioCreacion(LoginRequest.getUsuarioLogueado());
-            // Fecha
-            // sucId.setFechaCreacion(LocalDateTime.now());
             return usuarioService.guardar(usId);
         }
-
     }
 
     @PutMapping("/update_usuario/{id}")
@@ -63,11 +58,6 @@ public class UsuarioController {
             us.setCarrera(updUs.getCarrera());
             us.setRol(updUs.getRol());
             us.setFechaCreacion(updUs.getFechaCreacion());
-            // us.setPassword(updUs.getPassword());
-            // Actualizamos usuario
-            // scl.setUsuarioModificacion(LoginRequest.getUsuarioLogueado());
-            // Acuatlizamos la hora
-            // scl.setFechaModificacion(LocalDateTime.now());
             return usuarioService.guardar(us);
         } else {
             return null;

@@ -27,8 +27,8 @@
             <strong>Disponibles:</strong> {{ l.ejemplaresDisponibles }}
           </p>
           <div class="d-flex justify-content-center">
-            <button class="btn btn-sm btn-outline-primary">
-              <i class="bi bi-pencil"></i> Prestar
+            <button class="btn btn-sm btn-outline-primary" (click)="prestarLibro(l)">
+              <i class="bi bi-book"></i> Prestar
             </button>
           </div>
         </div>

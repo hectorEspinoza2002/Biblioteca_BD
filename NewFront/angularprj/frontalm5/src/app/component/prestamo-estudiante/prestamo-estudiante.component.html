@@ -1,0 +1,50 @@
+<div class="container mt-4">
+  <h2 class="text-primary mb-4">📚 Mis Préstamos</h2>
+
+  <div *ngIf="prestamos.length === 0" class="alert alert-info">
+    No tienes préstamos registrados actualmente.
+  </div>
+
+  <table *ngIf="prestamos.length > 0" class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>#</th>
+        <th>Libro</th>
+        <th>Fecha de Préstamo</th>
+        <th>Devolución Prevista</th>
+        <th>Devolución Real</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of prestamos">
+        <td>{{ p.idPrestamo }}</td>
+        <td>{{ p.libro!.titulo || "Sin título" }}</td>
+        <td>{{ p.fechaPrestamo | date : "short" }}</td>
+        <td>{{ p.fechaDevolucionPrevista | date }}</td>
+        <td>
+          <span
+            *ngIf="p.fechaDevolucionReal; else pendiente"
+            class="text-success"
+          >
+            {{ p.fechaDevolucionReal | date : "short" }}
+          </span>
+          <ng-template #pendiente>
+            <span class="text-danger">Pendiente</span>
+          </ng-template>
+        </td>
+        <td>
+          <span
+            [ngClass]="{
+              'badge bg-success': p.estado.nombre === 'Devuelto',
+              'badge bg-warning text-dark': p.estado.nombre === 'Activo',
+              'badge bg-danger': p.estado.nombre === 'Atrasado'
+            }"
+          >
+            {{ p.estado.nombre }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

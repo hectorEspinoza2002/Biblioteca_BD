@@ -30,7 +30,7 @@ public class Prestamo {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_libro")
-    private Libro id_libro;
+    private Libro libro;
 
     @Column(name = "fecha_prestamo")
     private LocalDateTime fechaPrestamo;

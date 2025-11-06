@@ -14,9 +14,11 @@ import com.bdproject.hespinoza.hesp.service.PrestamoService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
-@CrossOrigin(origins = "*") 
+@RequestMapping("/prestamos")
+@CrossOrigin(origins = "*")
 public class PrestamoController {
 
     private final PrestamoService prestamoService;
@@ -30,7 +32,7 @@ public class PrestamoController {
         return prestamoService.findAll();
     }
 
-    @PostMapping("/prestamos")
+    @PostMapping
     public ResponseEntity<?> registrarPrestamo(@RequestBody Prestamo p) {
         try {
             Prestamo nuevo = prestamoService.registrarPrestamo(p);
@@ -56,28 +58,10 @@ public class PrestamoController {
         return ResponseEntity.ok("Préstamo eliminado correctamente.");
     }
 
-/*
-    @Autowired
-    private PrestamoService prestamoService;
-
-    @GetMapping("/list_prestamo")
-    public List<Prestamo> listarTodos(){
-        return prestamoService.findAll();
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<?> listarPorUsuario(@PathVariable Integer idUsuario) {
+        List<Prestamo> prestamos = prestamoService.findByUsuarioId(idUsuario);
+        return ResponseEntity.ok(prestamos);
     }
 
-    @GetMapping("/list_prestamo/{id}")
-    public Optional<Prestamo> obtenerPorId(@PathVariable Integer id){
-        return prestamoService.findById(id);
-    }
-
-    @PostMapping("/create_prestamo")
-    public Prestamo createPrestamo(@RequestBody Prestamo prestId){
-        if (prestId.getIdPrestamo() != null) {
-            return null;
-        } else {
-            return prestamoService.guardar(prestId);
-        }
-    }
- */
 }
-   

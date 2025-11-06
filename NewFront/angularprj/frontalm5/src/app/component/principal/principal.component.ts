@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Libro } from '../../entity/librot';
 import { LibroService } from '../../service/libro.service';
 import { Router } from '@angular/router';
+import { PrestamoService } from '../../service/prestamo.service';
+import Swal from 'sweetalert2';
+import { Usuario } from '../../entity/usuario';
+import { Prestamo } from '../../entity/prestamo';
 
 @Component({
   selector: 'app-principal',
@@ -20,7 +24,7 @@ export class PrincipalComponent implements OnInit{
   totalPaginas = 0;
   totalPaginasArray: number[] = [];
 
-  constructor(private libroService: LibroService, private router: Router) {}
+  constructor(private libroService: LibroService, private router: Router, private prestamoService: PrestamoService) {}
 
   ngOnInit(): void {
     this.libroService.getAll().subscribe((data) => {
@@ -51,9 +55,36 @@ export class PrincipalComponent implements OnInit{
     }
   }
 
-  prestamoLibro(l:Libro): void {
-    localStorage.setItem('id', l.idLibro.toString());
-    this.router.navigate(['/prestamo']);
+  // 🟢 Método para prestar libro
+  prestarLibro(libro: Libro): void {
+    //const usuarioId = localStorage.getItem('usuarioId'); // o donde guardes el usuario logueado
+    // 🔹 Obtener el usuario completo del localStorage
+    const usuarioStr = localStorage.getItem('usuario');
+
+    if (!usuarioStr) {
+      Swal.fire('Error', 'Debes iniciar sesión para poder prestar libros.', 'error');
+      return;
+    }
+
+    // 🔹 Parsear el objeto
+    const usuario = JSON.parse(usuarioStr);
+
+    const prestamo = {
+      usuario: { idUsuario: usuario.idUsuario },
+      libro: { idLibro: libro.idLibro },
+      estado: { idEstado: 1 } // Estado "Activo" o el ID que corresponda
+    };
+
+    this.prestamoService.registrarPrestamo(prestamo).subscribe({
+      next: (res) => {
+        Swal.fire('✅ Préstamo registrado', `Has prestado "${libro.titulo}" correctamente.`, 'success');
+        libro.ejemplaresDisponibles--;
+      },
+      error: (err) => {
+        const mensaje = err.error || 'Ocurrió un error al registrar el préstamo.';
+        Swal.fire('⚠️ Error', mensaje, 'error');
+      }
+    });
   }
 
 }

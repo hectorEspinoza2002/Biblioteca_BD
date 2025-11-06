@@ -1,1 +1,35 @@
-<p>prestamo works!</p>
+<div class="container mt-4">
+  <h2 class="text-primary mb-3">📚 Préstamos registrados</h2>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-light">
+      <tr>
+        <th>#</th>
+        <th>Usuario</th>
+        <th>Libro</th>
+        <th>Fecha Préstamo</th>
+        <th>Devolución Prevista</th>
+        <th>Devolución Real</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of prestamos">
+        <td>{{ p.idPrestamo }}</td>
+        <td>{{ p.usuario!.nombre }}</td>
+        <td>{{ p.libro!.titulo }}</td>
+        <td>{{ p.fechaPrestamo | date:'short' }}</td>
+        <td>{{ p.fechaDevolucionPrevista | date }}</td>
+        <td>{{ p.fechaDevolucionReal ? (p.fechaDevolucionReal | date:'short') : 'Pendiente' }}</td>
+        <td>
+          <button class="btn btn-sm btn-warning me-1" (click)="devolver(p)" [disabled]="p.fechaDevolucionReal">
+            <i class="bi bi-arrow-return-left"></i> Devolver
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="eliminar(p)">
+            <i class="bi bi-trash"></i> Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -15,6 +15,8 @@ import { EditlibroComponent } from './component/editlibro/editlibro.component';
 import { EditorialComponent } from './component/editorial/editorial.component';
 import { RegisterComponent } from './component/register/register.component';
 import { PrestamoComponent } from './component/prestamo/prestamo.component';
+import { PrestamoEstudianteComponent } from './component/prestamo-estudiante/prestamo-estudiante.component';
+import { PerfilComponent } from './component/perfil/perfil.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { PrestamoComponent } from './component/prestamo/prestamo.component';
     EditlibroComponent,
     EditorialComponent,
     RegisterComponent,
-    PrestamoComponent
+    PrestamoComponent,
+    PrestamoEstudianteComponent,
+    PerfilComponent
   ],
   imports: [
     BrowserModule,

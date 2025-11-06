@@ -9,14 +9,19 @@ import { Genero } from '../entity/genero';
 })
 export class UsuarioService {
   constructor(private http: HttpClient) {}
-  Url = 'http://localhost:9090/api';
+  Url = 'http://localhost:9090';
+
+   obtenerUsuarioPorId(id: number): Observable<any> {
+    return this.http.get(`${this.Url}/list_usuario/${id}`);
+  }
+
   /*
 
   listUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(`${this.Url}/usuarios`);
   }
 
-  buscarUsuarioId(id: string): Observable<Usuario> {
+  obtenerUsuarioPorId(id: string): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.Url}/${id}`);
   }
 

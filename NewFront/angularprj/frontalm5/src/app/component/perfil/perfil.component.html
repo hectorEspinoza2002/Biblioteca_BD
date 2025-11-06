@@ -1,0 +1,39 @@
+<div class="container mt-4" *ngIf="usuario">
+  <div class="card shadow-lg p-4 rounded-4">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-3">👤 Perfil del Usuario</h3>
+      <hr>
+
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <strong>Nombre:</strong> {{ usuario.nombre }} {{ usuario.apellido }}
+        </div>
+        <div class="col-md-6">
+          <strong>Email:</strong> {{ usuario.email }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <strong>Carné:</strong> {{ usuario.carne || 'No asignado' }}
+        </div>
+        <div class="col-md-6">
+          <strong>Carrera:</strong> {{ usuario.carrera || 'No especificada' }}
+        </div>
+      </div>
+
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <strong>Rol:</strong> {{ usuario.rol?.nombre || 'Estudiante' }}
+        </div>
+        <div class="col-md-6">
+          <strong>Fecha de creación:</strong> {{ usuario.fechaCreacion | date:'dd/MM/yyyy' }}
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <button class="btn btn-primary" routerLink="/principal">Volver al inicio</button>
+      </div>
+    </div>
+  </div>
+</div>
