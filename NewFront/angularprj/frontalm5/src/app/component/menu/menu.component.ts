@@ -10,6 +10,11 @@ import { Router } from '@angular/router';
 export class MenuComponent implements OnInit {
 
   usuarioNombre: string = '';
+  rolId: number = 0;
+
+
+  esProfesor: boolean = false;
+  esPersonal: boolean = false;
 
   constructor(public router:Router){}
 
@@ -18,6 +23,11 @@ export class MenuComponent implements OnInit {
     if (usuarioStr) {
       const usuario = JSON.parse(usuarioStr);
       this.usuarioNombre = usuario.nombre;
+      this.rolId = usuario.rol?.idRol || 0;
+
+      this.esProfesor = this.rolId === 2;
+      this.esPersonal = this.rolId === 3;
+      console.log(this.rolId);
     }
   }
 

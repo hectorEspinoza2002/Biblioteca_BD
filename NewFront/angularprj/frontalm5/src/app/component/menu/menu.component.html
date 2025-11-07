@@ -1,6 +1,5 @@
 <!-- Solo muestra barra si NO estamos en /login -->
 <div *ngIf="router.url !== '/login'">
-
   <nav class="navbar navbar-expand-lg navbar-light bg-warning">
     <div class="container-fluid">
       <a class="navbar-brand" routerLink="/principal">Inicio</a>
@@ -15,14 +14,12 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-
       <!-- Botones a la derecha -->
       <ul class="navbar-nav ms-auto">
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <!-- Menú Usuarios -->
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="esPersonal">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -31,7 +28,7 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Opciones Administrador
+              Opciones Personal
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownUsuarios">
               <li>
@@ -48,11 +45,10 @@
 
         </ul>
         </div>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <!-- Menú Usuarios -->
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="esProfesor">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -75,8 +71,6 @@
 
         </ul>
         </div>
-
-
         <li class="nav-item">
           <a class="nav-link text-info fw-bold" routerLink="/prestamo-estudiante">
             <i class="bi bi-person-circle"></i> Mis Prestamos
