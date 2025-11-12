@@ -40,9 +40,10 @@ public class UsuarioController {
 
     @PostMapping("/create_usuario")
     public Usuario createUsuario(@RequestBody Usuario usId) {
-        if (usId.getIdUsuario() != null) {
+        if (usId.getIdUsuario() != null && usuarioService.findById(usId.getIdUsuario()).isPresent()) {
             return null;
         } else {
+            usId.setFechaCreacion(LocalDate.now());
             return usuarioService.guardar(usId);
         }
     }
@@ -58,6 +59,7 @@ public class UsuarioController {
             us.setCarrera(updUs.getCarrera());
             us.setRol(updUs.getRol());
             us.setFechaCreacion(updUs.getFechaCreacion());
+            us.setPassword(updUs.getPassword());
             return usuarioService.guardar(us);
         } else {
             return null;

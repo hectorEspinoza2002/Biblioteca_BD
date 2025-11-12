@@ -2,7 +2,7 @@
   <!-- FORMULARIO -->
   <div class="card shadow-sm mb-4">
     <div class="card-header bg-primary text-white text-center">
-      <h4>{{ modoEditar ? 'Editar Libro' : 'Agregar Nuevo Libro' }}</h4>
+      <h4>{{ modoEditar ? "Editar Libro" : "Agregar Nuevo Libro" }}</h4>
     </div>
 
     <div class="card-body">
@@ -60,7 +60,11 @@
 
           <div class="col-md-6 mb-3">
             <label class="form-label fw-bold">Fotografía</label>
-            <input type="file" (change)="onFileSelected($event)" class="form-control" />
+            <input
+              type="file"
+              (change)="onFileSelected($event)"
+              class="form-control"
+            />
             <div *ngIf="libro.fotografia" class="mt-2">
               <img
                 [src]="'data:image/jpeg;base64,' + libro.fotografia"
@@ -73,21 +77,40 @@
         </div>
 
         <div class="row">
-           <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3">
             <label class="form-label">Total Ejemplares</label>
-            <input type="number" [(ngModel)]="libro.totalEjemplares" name="totalEjemplares" class="form-control" min="1">
+            <input
+              type="number"
+              [(ngModel)]="libro.totalEjemplares"
+              name="totalEjemplares"
+              class="form-control"
+              min="1"
+            />
           </div>
 
           <div class="col-md-3 mb-3">
             <label class="form-label">Disponibles</label>
-            <input type="number" [(ngModel)]="libro.ejemplaresDisponibles" name="ejemplaresDisponibles" class="form-control" min="0">
+            <input
+              type="number"
+              [(ngModel)]="libro.ejemplaresDisponibles"
+              name="ejemplaresDisponibles"
+              class="form-control"
+              min="0"
+            />
           </div>
 
-           <div class="col-md-3 mb-3">
+          <div class="col-md-3 mb-3">
             <label class="form-label">Editorial</label>
-            <select [(ngModel)]="libro.editorial" name="editorial" class="form-select" required>
+            <select
+              [(ngModel)]="libro.editorial"
+              name="editorial"
+              class="form-select"
+              required
+            >
               <option [ngValue]="undefined">Seleccione...</option>
-              <option *ngFor="let e of editoriales" [ngValue]="e">{{ e.nombre }}</option>
+              <option *ngFor="let e of editoriales" [ngValue]="e">
+                {{ e.nombre }}
+              </option>
             </select>
           </div>
         </div>
@@ -99,7 +122,7 @@
             (click)="guardarLibro()"
             [disabled]="!libroForm.form.valid"
           >
-            {{ modoEditar ? 'Actualizar' : 'Guardar' }}
+            {{ modoEditar ? "Actualizar" : "Guardar" }}
           </button>
 
           <button
@@ -158,10 +181,7 @@
               >
                 Editar
               </button>
-              <button
-                (click)="eliminarLibro(l)"
-                class="btn btn-danger btn-sm"
-              >
+              <button (click)="eliminarLibro(l)" class="btn btn-danger btn-sm">
                 Eliminar
               </button>
             </td>
@@ -171,8 +191,6 @@
     </div>
   </div>
 </div>
-
-
 
 <!--
 <div class="container">

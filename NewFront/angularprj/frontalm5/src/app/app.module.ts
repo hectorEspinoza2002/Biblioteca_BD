@@ -17,6 +17,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { PrestamoComponent } from './component/prestamo/prestamo.component';
 import { PrestamoEstudianteComponent } from './component/prestamo-estudiante/prestamo-estudiante.component';
 import { PerfilComponent } from './component/perfil/perfil.component';
+import { ListusuariopersonalComponent } from './component/listusuariopersonal/listusuariopersonal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { PerfilComponent } from './component/perfil/perfil.component';
     RegisterComponent,
     PrestamoComponent,
     PrestamoEstudianteComponent,
-    PerfilComponent
+    PerfilComponent,
+    ListusuariopersonalComponent
   ],
   imports: [
     BrowserModule,

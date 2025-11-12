@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Usuario } from '../entity/usuario';
 import { Observable } from 'rxjs';
 import { Genero } from '../entity/genero';
+import { RolUsuario } from '../entity/rolusuario';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,35 @@ export class UsuarioService {
 
    obtenerUsuarioPorId(id: number): Observable<any> {
     return this.http.get(`${this.Url}/list_usuario/${id}`);
+  }
+
+  // Obtener todos los usuarios
+  getAll(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.Url + '/list_usuario');
+  }
+
+  // Crear usuario
+  addUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.Url + '/create_usuario', usuario);
+  }
+
+  register(usuario: Usuario): Observable<Usuario> {
+    return this.http.post<Usuario>(this.Url + '/register', usuario);
+  }
+
+  // Editar usuario
+  editUsuario(id: string, usuario: Usuario){
+    return this.http.put<Usuario>(this.Url + '/update_usuario/' + id, usuario);
+  }
+
+  // Eliminar usuario
+  deleteUsuario(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.Url}/${id}`);
+  }
+
+  // Obtener roles para el select
+  getRoles(): Observable<RolUsuario[]> {
+    return this.http.get<RolUsuario[]>(this.Url + '/list_rol');
   }
 
   /*

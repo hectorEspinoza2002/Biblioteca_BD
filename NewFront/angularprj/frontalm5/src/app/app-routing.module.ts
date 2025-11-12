@@ -12,6 +12,7 @@ import { RegisterComponent } from './component/register/register.component';
 import { PrestamoComponent } from './component/prestamo/prestamo.component';
 import { PrestamoEstudianteComponent } from './component/prestamo-estudiante/prestamo-estudiante.component';
 import { PerfilComponent } from './component/perfil/perfil.component';
+import { ListusuariopersonalComponent } from './component/listusuariopersonal/listusuariopersonal.component';
 
 const routes: Routes = [
   {    path: "listlibro", component:ListlibroComponent  },
@@ -21,6 +22,7 @@ const routes: Routes = [
   {    path: "prestamo", component:PrestamoComponent  },
   {    path: "prestamo-estudiante", component:PrestamoEstudianteComponent  },
   {    path: "perfil", component:PerfilComponent  },
+  {    path: "usuarioPersonal", component:ListusuariopersonalComponent  },
 
 
   {    path: "listusuarios", component:ListusuarioComponent  },

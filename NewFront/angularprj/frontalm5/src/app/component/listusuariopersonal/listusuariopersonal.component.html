@@ -1,0 +1,121 @@
+<div class="container mt-4">
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">{{ modoEdicion ? 'Editar Usuario' : 'Agregar Nuevo Usuario' }}</h5>
+    </div>
+
+    <div class="card-body">
+      <form (ngSubmit)="guardarUsuario()" #formUsuario="ngForm">
+        <div class="row">
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Carné</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.carne" name="carne">
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.nombre" name="nombre" required>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Apellido</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.apellido" name="apellido" required>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Correo</label>
+            <input type="email" class="form-control" [(ngModel)]="nuevoUsuario.email" name="email" required>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Carrera</label>
+            <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.carrera" name="carrera">
+          </div>
+
+
+          <!--
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Rol</label>
+            <select class="form-select" [(ngModel)]="nuevoUsuario.rol.idRol" name="rol" required>
+              <option *ngFor="let r of roles" [ngValue]="r.idRol">{{ r.nombreRol }}</option>
+            </select>
+          </div>
+          -->
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Rol</label>
+            <select [(ngModel)]="nuevoUsuario.rol"
+            name="rol"
+            class="form-select"
+            required
+            >
+            <option [ngValue]="undefined">Seleccione...</option>
+            <option *ngFor="let r of roles" [ngValue]="r">
+              {{r.nombreRol}}
+            </option>
+            </select>
+          </div>
+
+
+          <div class="col-md-4 mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" [(ngModel)]="nuevoUsuario.password" name="password" [required]="!modoEdicion">
+          </div>
+
+          <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-success w-100">
+              {{ modoEdicion ? 'Actualizar' : 'Crear' }}
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="modoEdicion" class="text-end">
+          <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarEdicion()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lista -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-light">
+      <h5 class="text-primary mb-0">Listado de Usuarios</h5>
+    </div>
+    <div class="card-body table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-primary text-center">
+          <tr>
+            <th>ID</th>
+            <th>Carné</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Carrera</th>
+            <th>Rol</th>
+            <th>Fecha Creación</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let us of usuarios" class="text-center">
+            <td>{{ us.idUsuario }}</td>
+            <td>{{ us.carne || '—' }}</td>
+            <td>{{ us.nombre }}</td>
+            <td>{{ us.apellido }}</td>
+            <td>{{ us.email }}</td>
+            <td>{{ us.carrera || '—' }}</td>
+            <td>{{ us.rol!.nombreRol }}</td>
+            <td>{{ us.fechaCreacion | date:'short' }}</td>
+            <td>
+              <button class="btn btn-warning btn-sm me-2" (click)="seleccionarUsuario(us)">Editar</button>
+              <button class="btn btn-danger btn-sm" (click)="eliminarUsuario(us)">Eliminar</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

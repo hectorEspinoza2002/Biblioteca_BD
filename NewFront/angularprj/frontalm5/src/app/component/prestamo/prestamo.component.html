@@ -5,7 +5,9 @@
     <thead class="table-light">
       <tr>
         <th>#</th>
+        <th>Carné</th>
         <th>Usuario</th>
+        <th>Carrera</th>
         <th>Libro</th>
         <th>Fecha Préstamo</th>
         <th>Devolución Prevista</th>
@@ -16,7 +18,9 @@
     <tbody>
       <tr *ngFor="let p of prestamos">
         <td>{{ p.idPrestamo }}</td>
-        <td>{{ p.usuario!.nombre }}</td>
+        <td>{{ p.usuario.carne }}</td>
+        <td>{{ p.usuario.nombre }} {{p.usuario.apellido}}</td>
+        <td>{{ p.usuario.carrera }}</td>
         <td>{{ p.libro!.titulo }}</td>
         <td>{{ p.fechaPrestamo | date:'short' }}</td>
         <td>{{ p.fechaDevolucionPrevista | date }}</td>

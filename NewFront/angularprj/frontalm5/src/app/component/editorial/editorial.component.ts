@@ -78,38 +78,4 @@ export class EditorialComponent implements OnInit {
     this.nuevaEditorial = new Editorial();
   }
 
-  /*
-  editoriales!: Editorial[];
-
-  constructor(private ediService: EditorialService, private router: Router) {}
-
-  ngOnInit(): void {
-    this.ediService.getAll().subscribe((data) => {
-      this.editoriales = data;
-    });
-  }
-
-  deleteEditorial(ed: Editorial){
-    var validar = confirm("Esta seguro que desea eliminar la editorial?");
-    if(validar == true){
-      this.ediService.deleteEditorial(ed).subscribe({
-        next: (result) => {
-          this.editoriales = this.editoriales.filter((x) => x !== ed);
-          alert(result+ed.nombre+ " eliminada correctamente");
-        },
-        error: ()=>{
-          alert("Ha ocurrido un error al eliminar la editorial");
-        }
-      })
-    }
-  }
-
-  seleccionarEditorial(){
-
-  }
-
-  eliminarEditorial(){
-
-  }*/
-
 }
