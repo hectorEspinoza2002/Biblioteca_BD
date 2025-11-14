@@ -1,0 +1,156 @@
+-- Biblioteca DB (MySQL)
+DROP DATABASE IF EXISTS biblioteca_universitaria;
+CREATE DATABASE biblioteca_universitaria CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE biblioteca_universitaria;
+
+CREATE TABLE pais (
+  id_pais INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL
+);
+INSERT INTO pais(nombre) values ('Guatemala'), ('Estados Unidos'), ('Mexico'), ('España'), ('United Kingdom');
+
+-- =========================
+-- TABLA: editorial
+-- =========================
+CREATE TABLE editorial (
+  id_editorial INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(150) NOT NULL,
+  pais INT NOT NULL,
+  CONSTRAINT fk_pais FOREIGN KEY (pais) REFERENCES pais(id_pais)
+) ENGINE=InnoDB;
+
+-- =========================
+-- TABLA: autor
+-- =========================
+CREATE TABLE autor (
+  id_autor INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_completo VARCHAR(200) NOT NULL,
+  nacionalidad VARCHAR(100),
+  fecha_nacimiento DATE,
+  usuarioCreacion VARCHAR(100),
+  fechaCreacion Date
+) ENGINE=InnoDB;
+
+-- =========================
+-- TABLA: libro
+-- =========================
+-- Usamos ISBN como identificador natural, y además guardamos total/disp
+CREATE TABLE libro (
+  id_libro INT auto_increment NOT NULL PRIMARY KEY,
+  isbn VARCHAR(20) UNIQUE,
+  titulo VARCHAR(300) NOT NULL,
+  anio_publicacion YEAR,
+  Fotografia MEDIUMBLOB,
+  id_editorial INT,
+  serie VARCHAR(200),
+  usuarioCreacion VARCHAR(100),
+  fechaCreacion Date,
+  total_ejemplares INT NOT NULL DEFAULT 1,      -- total de ejemplares físicos
+  ejemplares_disponibles INT NOT NULL DEFAULT 1, -- cuántos están disponibles para préstamo
+  CONSTRAINT fk_libro_editorial FOREIGN KEY (id_editorial) REFERENCES editorial(id_editorial)
+) ENGINE=InnoDB;
+
+-- =========================
+-- TABLA: libro_autor (N:M)
+-- =========================
+CREATE TABLE libro_autor (
+  id_libro INT NOT NULL,
+  id_autor INT NOT NULL,
+  PRIMARY KEY (id_libro, id_autor),
+  CONSTRAINT fk_la_libro FOREIGN KEY (id_libro) REFERENCES libro(id_libro),
+  CONSTRAINT fk_la_autor  FOREIGN KEY (id_autor) REFERENCES autor(id_autor)
+) ENGINE=InnoDB;
+
+-- =========================
+-- TABLA: rol_usuario (simple)
+-- =========================
+CREATE TABLE rol_usuario (
+  id_rol INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_rol VARCHAR(50) NOT NULL -- e.g. 'ESTUDIANTE','PROFESOR','PERSONAL'
+) ENGINE=InnoDB;
+
+INSERT INTO rol_usuario (nombre_rol) VALUES ('ESTUDIANTE'),('PROFESOR'),('PERSONAL');
+
+CREATE TABLE carrera (
+  id_carrera INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL
+);
+INSERT INTO carrera(nombre) values ('Ingenieria En Sistemas'), ('Ingenieria Civil'), ('Licenciatura En Psicologia'), ('Administracion De Empresas');
+
+-- =========================
+-- TABLA: usuario
+-- =========================
+CREATE TABLE usuario (
+  id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+  carne VARCHAR(50) UNIQUE,         -- número de carné (opcional si aplica)
+  nombre VARCHAR(200) NOT NULL,
+  apellido VARCHAR(200) NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  carrera INT NOT NULL,
+  id_rol INT NOT NULL,
+  fechaCreacion Date,
+  password VARCHAR(200) NULL, -- almacenar hash, nunca contraseña en claro
+  CONSTRAINT fk_usuario_rol FOREIGN KEY (id_rol) REFERENCES rol_usuario(id_rol),
+  CONSTRAINT fk_carrera FOREIGN KEY (carrera) REFERENCES carrera(id_carrera)
+) ENGINE=InnoDB;
+
+-- Estado préstamo como tabla
+CREATE TABLE estado_prestamo (
+  id_estado INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(50) NOT NULL
+);
+INSERT INTO estado_prestamo (nombre) VALUES ('ACTIVO'),('DEVUELTO'),('ATRASADO');
+
+-- =========================
+-- TABLA: prestamo
+-- =========================
+CREATE TABLE prestamo (
+  id_prestamo INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NOT NULL,
+  id_libro INT NOT NULL,
+  fecha_prestamo DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  fecha_devolucion_prevista DATE NOT NULL,
+  fecha_devolucion_real DATETIME NULL, -- NULL indica no devuelto aún
+  estado INT NOT NULL,
+  CONSTRAINT fk_prestamo_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+  CONSTRAINT fk_prestamo_libro   FOREIGN KEY (id_libro) REFERENCES libro(id_libro),
+  CONSTRAINT fk_estado FOREIGN KEY (estado) REFERENCES estado_prestamo(id_estado)
+) ENGINE=InnoDB;
+
+-- =========================
+-- TABLA: bitacora (registro de acciones)
+-- =========================
+CREATE TABLE bitacora (
+  id_bitacora INT AUTO_INCREMENT PRIMARY KEY,
+  id_usuario INT NULL,
+  accion VARCHAR(100) NOT NULL,
+  descripcion TEXT NULL,
+  fecha_hora DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  ip_origen VARCHAR(50) NULL,
+  CONSTRAINT fk_bitacora_usuario FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+) ENGINE=InnoDB;
+
+-- =========================
+-- DATOS DE EJEMPLO (mínimos) - opcional
+-- =========================
+
+INSERT INTO editorial (nombre, pais) VALUES
+('Penguin Random House', 5),
+('Alfaguara', 4);
+
+INSERT INTO autor (nombre_completo, nacionalidad, fecha_nacimiento) VALUES
+('Miguel Ángel Asturias','Guatemala','1899-10-19'),
+('Ernest Hemingway','United States','1899-07-21');
+
+INSERT INTO libro (id_libro,isbn,titulo,anio_publicacion,id_editorial,serie,total_ejemplares,ejemplares_disponibles) VALUES
+(1, '9780747532699', 'Harry Potter y la piedra filosofal', 1997, 1, 'Harry Potter', 5, 5),
+(2, '9788408064892', 'La sombra del viento', 2001 ,2 , 'No se', 3, 3);
+
+INSERT INTO libro_autor (id_libro, id_autor) VALUES
+(1, 1),
+(2, 2);
+
+INSERT INTO usuario (carne, nombre, apellido, email, carrera, id_rol, password)
+VALUES ('2021001', 'Héctor' , 'Espinoza', 'hespinoza@mail.com', 1, '3', 'hespinoza');
+
+-- Fin del script

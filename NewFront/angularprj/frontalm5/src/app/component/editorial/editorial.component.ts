@@ -1,3 +1,4 @@
+import { PaisService } from './../../service/pais.service';
 import { Component, OnInit } from '@angular/core';
 import { Editorial } from '../../entity/editorial';
 import { EditorialService } from '../../service/editorial.service';
@@ -12,19 +13,27 @@ import { Router } from '@angular/router';
 export class EditorialComponent implements OnInit {
 
   editoriales: Editorial[] = [];
+  paices: Editorial[] = [];
   nuevaEditorial: Editorial = new Editorial();
   modoEdicion: boolean = false;
   editorialSeleccionadaId?: number;
 
-  constructor(private ediService: EditorialService, private router: Router) {}
+  constructor(private ediService: EditorialService, private router: Router, private pService: PaisService) {}
 
   ngOnInit(): void {
     this.cargarEditoriales();
+    this.cargarPaiss();
   }
 
   cargarEditoriales() {
     this.ediService.getAll().subscribe((data) => {
       this.editoriales = data;
+    });
+  }
+
+  cargarPaiss() {
+    this.pService.getAll().subscribe((data) => {
+      this.paices = data;
     });
   }
 
@@ -37,6 +46,7 @@ export class EditorialComponent implements OnInit {
             alert('Editorial actualizada correctamente ✅');
             this.cancelarEdicion();
             this.cargarEditoriales();
+            this.cargarPaiss();
           },
           error: () => alert('Error al actualizar la editorial')
         });
@@ -48,6 +58,7 @@ export class EditorialComponent implements OnInit {
             alert('Editorial creada correctamente ✅');
             this.nuevaEditorial = new Editorial();
             this.cargarEditoriales();
+            this.cargarPaiss();
           },
           error: () => alert('Error al crear la editorial')
         });

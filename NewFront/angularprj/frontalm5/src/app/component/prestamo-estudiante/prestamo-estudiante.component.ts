@@ -10,7 +10,7 @@ import { PrestamoService } from '../../service/prestamo.service';
 })
 export class PrestamoEstudianteComponent implements OnInit {
 
-   prestamos: Prestamo[] = [];
+  prestamos: Prestamo[] = [];
   usuario: any;
 
   constructor(private prestamoService: PrestamoService) {}

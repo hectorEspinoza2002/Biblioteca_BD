@@ -14,16 +14,18 @@ export class PerfilComponent implements OnInit {
   constructor(private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
-    // 1️⃣ Obtener el usuario guardado en localStorage
+
     const usuarioStr = localStorage.getItem('usuario');
 
     if (usuarioStr) {
       const usuarioGuardado = JSON.parse(usuarioStr);
 
-      // 2️⃣ Consultar al backend para tener los datos actualizados
+
       this.usuarioService.obtenerUsuarioPorId(usuarioGuardado.idUsuario).subscribe({
         next: (data) => {
           this.usuario = data;
+
+          localStorage.setItem('usuario', JSON.stringify(data));
         },
         error: (err) => {
           console.error('Error al obtener el usuario:', err);

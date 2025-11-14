@@ -1,3 +1,4 @@
+import { Carrera } from "./carrera";
 import { RolUsuario } from "./rolusuario";
 
 export class Usuario {
@@ -6,7 +7,7 @@ export class Usuario {
   nombre!: string;
   apellido!: string;
   email!: string;
-  carrera!: string;
+  carrera!: Carrera;
   rol!: RolUsuario;
   fechaCreacion!: Date;
   password!: string;

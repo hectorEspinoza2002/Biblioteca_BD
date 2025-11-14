@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Usuario } from '../../entity/usuario';
 import { RolUsuario } from '../../entity/rolusuario';
 import { RolusuarioService } from '../../service/rolusuario.service';
+import { CarreraService } from '../../service/carrera.service';
+import { Carrera } from '../../entity/carrera';
 
 @Component({
   selector: 'app-listusuariopersonal',
@@ -15,18 +17,20 @@ export class ListusuariopersonalComponent {
 
   usuarios: Usuario[] = [];
   roles: RolUsuario[] = [];
+  carreras: Carrera[] = [];
 
   nuevoUsuario: Usuario = new Usuario();
   modoEdicion: boolean = false;
   usuarioSeleccionadoId?: number;
 
-  constructor(private usuarioService: UsuarioService, private router: Router,
+  constructor(private usuarioService: UsuarioService, private router: Router, private carreraService: CarreraService,
     private rolService: RolusuarioService
   ) {}
 
   ngOnInit(): void {
     this.cargarUsuarios();
     this.cargarRoles();
+    this.cargarCarreras();
   }
 
   cargarUsuarios() {
@@ -38,6 +42,12 @@ export class ListusuariopersonalComponent {
   cargarRoles() {
     this.rolService.getAll().subscribe(data => {
       this.roles = data;
+    });
+  }
+
+  cargarCarreras() {
+    this.carreraService.getAll().subscribe(data => {
+      this.carreras = data;
     });
   }
 

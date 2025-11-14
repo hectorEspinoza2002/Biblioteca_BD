@@ -35,8 +35,9 @@ public class Usuario {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "carrera")
-    private String carrera;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "carrera")
+    private Carrera carrera;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_rol")

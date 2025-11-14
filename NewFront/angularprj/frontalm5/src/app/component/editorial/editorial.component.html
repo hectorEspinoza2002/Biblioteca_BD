@@ -14,7 +14,7 @@
                    name="nombre"
                    required>
           </div>
-
+<!--
           <div class="col-md-5 mb-3">
             <label class="form-label">País</label>
             <input type="text"
@@ -22,12 +22,28 @@
                    [(ngModel)]="nuevaEditorial.pais"
                    name="pais">
           </div>
+-->
+          <div class="col-md-5 mb-3">
+            <label class="form-label">Pais</label>
+            <select
+              [(ngModel)]="nuevaEditorial.pais"
+              name="editorial"
+              class="form-select"
+              required
+            >
+              <option [ngValue]="undefined">Seleccione...</option>
+              <option *ngFor="let e of paices" [ngValue]="e">
+                {{ e.nombre }}
+              </option>
+            </select>
+          </div>
 
           <div class="col-md-2 d-flex align-items-end">
             <button type="submit" class="btn btn-success w-100">
               {{ modoEdicion ? 'Actualizar' : 'Crear' }}
             </button>
           </div>
+
         </div>
 
         <div *ngIf="modoEdicion" class="text-end">
@@ -58,7 +74,7 @@
           <tr *ngFor="let ed of editoriales" class="text-center">
             <td>{{ ed.idEditorial }}</td>
             <td>{{ ed.nombre }}</td>
-            <td>{{ ed.pais || '—' }}</td>
+            <td>{{ ed.pais.nombre }}</td>
             <td>
               <button class="btn btn-warning btn-sm me-2" (click)="seleccionarEditorial(ed)">
                 Editar

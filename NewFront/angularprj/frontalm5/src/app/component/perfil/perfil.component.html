@@ -21,10 +21,9 @@
           <strong>Carrera:</strong> {{ usuario.carrera || 'No especificada' }}
         </div>
       </div>
-
       <div class="row mb-2">
         <div class="col-md-6">
-          <strong>Rol:</strong> {{ usuario.rol?.nombre || 'Estudiante' }}
+          <strong>Rol:</strong> {{ usuario.rol.nombreRol }}
         </div>
         <div class="col-md-6">
           <strong>Fecha de creación:</strong> {{ usuario.fechaCreacion | date:'dd/MM/yyyy' }}

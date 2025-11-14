@@ -30,18 +30,17 @@
 
           <div class="col-md-4 mb-3">
             <label class="form-label">Carrera</label>
-            <input type="text" class="form-control" [(ngModel)]="nuevoUsuario.carrera" name="carrera">
-          </div>
-
-
-          <!--
-          <div class="col-md-4 mb-3">
-            <label class="form-label">Rol</label>
-            <select class="form-select" [(ngModel)]="nuevoUsuario.rol.idRol" name="rol" required>
-              <option *ngFor="let r of roles" [ngValue]="r.idRol">{{ r.nombreRol }}</option>
+            <select [(ngModel)]="nuevoUsuario.carrera"
+            name="carrera"
+            class="form-select"
+            required
+            >
+            <option [ngValue]="undefined">Seleccione...</option>
+            <option *ngFor="let r of carreras" [ngValue]="r">
+              {{r.nombre}}
+            </option>
             </select>
           </div>
-          -->
 
           <div class="col-md-4 mb-3">
             <label class="form-label">Rol</label>
@@ -106,7 +105,7 @@
             <td>{{ us.nombre }}</td>
             <td>{{ us.apellido }}</td>
             <td>{{ us.email }}</td>
-            <td>{{ us.carrera || '—' }}</td>
+            <td>{{ us.carrera!.nombre }}</td>
             <td>{{ us.rol!.nombreRol }}</td>
             <td>{{ us.fechaCreacion | date:'short' }}</td>
             <td>
