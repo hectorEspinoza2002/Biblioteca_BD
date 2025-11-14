@@ -18,7 +18,7 @@
           <strong>Carné:</strong> {{ usuario.carne || 'No asignado' }}
         </div>
         <div class="col-md-6">
-          <strong>Carrera:</strong> {{ usuario.carrera || 'No especificada' }}
+          <strong>Carrera:</strong> {{ usuario.carrera!.nombre || 'No especificada' }}
         </div>
       </div>
       <div class="row mb-2">

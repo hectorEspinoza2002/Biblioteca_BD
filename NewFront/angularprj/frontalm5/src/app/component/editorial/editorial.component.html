@@ -1,20 +1,36 @@
 <div class="container mt-4">
   <div class="card shadow-sm mb-4">
     <div class="card-header bg-primary text-white">
-      <h5 class="mb-0">{{ modoEdicion ? 'Editar Editorial' : 'Agregar Nueva Editorial' }}</h5>
+      <h5 class="mb-0">
+        {{ modoEdicion ? "Editar Editorial" : "Agregar Nueva Editorial" }}
+      </h5>
     </div>
     <div class="card-body">
       <form (ngSubmit)="guardarEditorial()" #formEditorial="ngForm">
         <div class="row">
+
+          <div class="col-md-5 mb-3">
+            <label class="form-label">ID</label>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="nuevaEditorial.idEditorial"
+              name="idEditorial"
+              required
+            />
+          </div>
+
           <div class="col-md-5 mb-3">
             <label class="form-label">Nombre</label>
-            <input type="text"
-                   class="form-control"
-                   [(ngModel)]="nuevaEditorial.nombre"
-                   name="nombre"
-                   required>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="nuevaEditorial.nombre"
+              name="nombre"
+              required
+            />
           </div>
-<!--
+          <!--
           <div class="col-md-5 mb-3">
             <label class="form-label">País</label>
             <input type="text"
@@ -40,14 +56,17 @@
 
           <div class="col-md-2 d-flex align-items-end">
             <button type="submit" class="btn btn-success w-100">
-              {{ modoEdicion ? 'Actualizar' : 'Crear' }}
+              {{ modoEdicion ? "Actualizar" : "Crear" }}
             </button>
           </div>
-
         </div>
 
         <div *ngIf="modoEdicion" class="text-end">
-          <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarEdicion()">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            (click)="cancelarEdicion()"
+          >
             Cancelar
           </button>
         </div>
@@ -76,10 +95,16 @@
             <td>{{ ed.nombre }}</td>
             <td>{{ ed.pais.nombre }}</td>
             <td>
-              <button class="btn btn-warning btn-sm me-2" (click)="seleccionarEditorial(ed)">
+              <button
+                class="btn btn-warning btn-sm me-2"
+                (click)="seleccionarEditorial(ed)"
+              >
                 Editar
               </button>
-              <button class="btn btn-danger btn-sm" (click)="eliminarEditorial(ed)">
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="eliminarEditorial(ed)"
+              >
                 Eliminar
               </button>
             </td>

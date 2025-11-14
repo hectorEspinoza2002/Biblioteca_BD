@@ -1,7 +1,7 @@
 package com.bdproject.hespinoza.hesp.model.entity;
 
 import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,7 +18,8 @@ import lombok.Data;
 public class Editorial {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_editorial")
+    @SequenceGenerator(name = "seq_editorial", sequenceName = "seq_editorial", allocationSize = 1)
     @Column(name = "id_editorial")
     private Integer idEditorial;
 
@@ -26,7 +27,7 @@ public class Editorial {
     private String nombre;
     
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pais")
+    @JoinColumn(name = "Pais")
     private Pais pais;
 
 }

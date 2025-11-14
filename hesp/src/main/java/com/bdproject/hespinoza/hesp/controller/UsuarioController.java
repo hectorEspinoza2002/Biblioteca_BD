@@ -91,6 +91,7 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> credenciales) {
+        System.out.println("Se eejcuto login!");
         String email = credenciales.get("email");
         String password = credenciales.get("password");
 
